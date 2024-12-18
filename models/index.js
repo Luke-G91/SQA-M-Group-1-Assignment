@@ -13,7 +13,13 @@ const BlogPost = sequelize.define('BlogPost', {
   author: {
     type: DataTypes.STRING(100),
     allowNull: false
-  }
+  },  
+  likes: {
+    type: DataTypes.INTEGER(),
+    allowNull: false,
+    defaultValue: 0
+  },
+  
 }, {
   timestamps: true,
   createdAt: 'created_at',
