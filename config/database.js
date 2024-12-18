@@ -1,10 +1,14 @@
 const { Sequelize } = require('sequelize');
-const path = require('path');
 
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: path.join(__dirname, '..', 'database.sqlite')
-});
+require('dotenv').config();
+
+const connectionString = process.env.DATABASE_URL;
+
+if (!connectionString) {
+  console.log('No connection string provided');
+  throw new ReferenceError('Environment variable DATABASE_URL is not defined.');
+}
+
+const sequelize = new Sequelize(process.env.DATABASE_URL);
 
 module.exports = sequelize;
-
