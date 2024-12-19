@@ -1,32 +1,54 @@
 const express = require("express");
 const path = require("path");
-const indexRouter = require("./routes/indexRouter.js");
-const blogRouter = require("./routes/blogRouter.js");
+const indexRouter = require("./routers/indexRouter.js");
+const blogRouter = require("./routers/blogRouter.js");
 const sequelize = require("./config/database.js");
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// View engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "pug");
+function setupViewEngine(app) {
+  app.set("views", path.join(__dirname, "views"));
+  app.set("view engine", "pug");
+}
 
-// Middleware
-// Parse URL-encoded bodies (as sent by HTML forms)
-// This middleware is needed to handle form submissions in our blog application
-app.use(express.urlencoded({ extended: true }));
+function setupMiddleware(app) {
+  app.use(express.urlencoded({ extended: true }));
+  app.use(express.static(path.join(__dirname, "public")));
+}
 
-// Serve static files from the 'public' directory
-// This middleware allows us to serve our CSS file and any other static assets
-app.use(express.static(path.join(__dirname, "public")));
+function setupRoutes(app, routers) {
+  for (const router of routers) {
+    app.use(router.basePath, router.router);
+  }
+}
 
-// Routes
-app.use("/", indexRouter);
-app.use("/blog", blogRouter);
-
-// Sync database and start server
-sequelize.sync().then(() => {
+function startServer() {
   app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
   });
-});
+}
+
+async function syncDatabase() {
+  try {
+    await sequelize.sync();
+    console.log("Database synchronized");
+  } catch (error) {
+    console.error("Failed to sync database:", error);
+    process.exit(1);
+  }
+}
+
+async function initializeServer() {
+  setupViewEngine(app);
+  setupMiddleware(app);
+  setupRoutes(app, [
+    { basePath: "/", router: indexRouter },
+    { basePath: "/blog", router: blogRouter },
+  ]);
+
+  await syncDatabase();
+  startServer();
+}
+
+initializeServer();
