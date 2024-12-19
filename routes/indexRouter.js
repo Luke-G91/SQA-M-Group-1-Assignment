@@ -9,12 +9,12 @@ router.get("/", (req, res) => {
 
 router.get("/home", async (req, res) => {
   const posts = await blogPostController.getAllBlogPosts();
-  res.render("index", { title: "Blog Posts", posts });
+  res.render("pages/home", { title: "Blog Posts", posts });
 });
 
 router.get("/stats", async (req, res) => {
   const stats = await blogPostController.getBlogStats();
-  res.render("stats", { title: "Post Statistics", ...stats });
+  res.render("pages/stats", { title: "Post Statistics", ...stats });
 });
 
 module.exports = router;

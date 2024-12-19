@@ -5,7 +5,7 @@ const blogPostController = require("../controllers/blogPostController.js");
 const router = express.Router();
 
 router.get("/create", (req, res) => {
-  res.render("create", { title: "Create Post" });
+  res.render("pages/createBlog", { title: "Create Post" });
 });
 
 router.post("/create", async (req, res) => {
@@ -18,7 +18,7 @@ router.get("/:id", async (req, res) => {
     const post = await blogPostController.getBlogPostById(req.params.id);
     console.log(post);
     if (post) {
-      res.render("post", { title: post.title, post });
+      res.render("pages/blog", { title: post.title, post });
     } else {
       res.status(404).send("Post not found");
     }
@@ -31,7 +31,7 @@ router.get("/:id/edit", async (req, res) => {
   try {
     const post = await blogPostController.getBlogPostById(req.params.id);
     if (post) {
-      res.render("edit", { title: "Edit Post", post });
+      res.render("pages/editBlog", { title: "Edit Post", post });
     } else {
       res.status(404).send("Post not found");
     }

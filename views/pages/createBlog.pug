@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 
 block content
   form(action="/blog/create", method="POST")
@@ -6,4 +6,3 @@ block content
     input(type="text", name="author", placeholder="Author", required)
     textarea(name="content", placeholder="Content", required)
     button(type="submit") Create
-

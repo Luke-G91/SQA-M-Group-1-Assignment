@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 
 block content
   form(action=`/${post.id}/edit`, method="POST")
@@ -8,4 +8,3 @@ block content
 
   form(action=`/blog/${post.id}/delete`, method="POST")
     button(type="submit", class="danger") Delete Post
-
