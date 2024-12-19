@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
-const blogRoutes = require("./routes/blog");
+const indexRouter = require("./routes/indexRouter.js");
+const blogRouter = require("./routes/blogRouter.js");
 const sequelize = require("./config/database.js");
 
 const app = express();
@@ -20,7 +21,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
-app.use("/", blogRoutes);
+app.use("/", indexRouter);
+app.use("/blog", blogRouter);
 
 // Sync database and start server
 sequelize.sync().then(() => {
