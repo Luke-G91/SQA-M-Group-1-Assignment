@@ -31,5 +31,9 @@ BlogComment.belongsTo(User);
 
 // User Associations
 // One to many association for User to BlogPost
+User.hasMany(BlogPost, {
+  foreignKey: "userId",
+});
+BlogPost.belongsTo(User);
 
 module.exports = { BlogPost, BlogLike, BlogComment, User };
