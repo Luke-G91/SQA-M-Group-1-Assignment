@@ -5,7 +5,6 @@ class BlogLike extends Model {}
 
 BlogLike.init(
   {
-    
     blogId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -22,12 +21,9 @@ BlogLike.init(
   {
     sequelize,
     modelName: "BlogLike",
-    tableName: "BlogLike", 
-   
+    tableName: "BlogLike",
   },
 );
 
-
-
-
 module.exports = BlogLike;
+

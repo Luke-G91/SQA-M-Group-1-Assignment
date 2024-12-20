@@ -20,7 +20,7 @@ User.init(
     },
     displayName: {
       type: DataTypes.STRING(255),
-      allowNull: true,
+      allowNull: false,
     },
     hashedPassword: {
       type: DataTypes.STRING(255),
