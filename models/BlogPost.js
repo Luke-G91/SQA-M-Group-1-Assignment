@@ -13,11 +13,16 @@ BlogPost.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    author: {
-      type: DataTypes.STRING(100),
+    user_id: {
+      type: DataTypes.INTEGER(),
       allowNull: false,
     },
     likeCount: {
+      type: DataTypes.INTEGER(),
+      allowNull: false,
+      defaultValue: 0,
+    },
+    commentCount: {
       type: DataTypes.INTEGER(),
       allowNull: false,
       defaultValue: 0,
