@@ -9,7 +9,7 @@ beforeAll(async () => {
 });
 
 describe("Blog controller", () => {
-  it("", async () => {
+  it("creates a new blog", async () => {
     const blogToCreate = {
       title: "test title",
       content: "test content",
