@@ -1,15 +1,10 @@
 const { DataTypes, Model } = require("sequelize");
 const sequelize = require("../config/database");
 
-class BlogUser extends Model {}
+class User extends Model {}
 
 BlogComment.init(
   {
-    ID: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
     firstName: {
       type: DataTypes.STRING(255),
       allowNull: false,
@@ -49,4 +44,4 @@ BlogComment.init(
   }
 );
 
-module.exports = BlogUser;
+module.exports = User;
