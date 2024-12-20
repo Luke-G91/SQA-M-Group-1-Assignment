@@ -6,13 +6,17 @@ class BlogLike extends Model {}
 BlogLike.init(
   {
     
-    blog_id: {
+    blogId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      // remove once functionality is added
+      defaultValue: 0,
     },
-    user_id: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      // remove once functionality is added
+      defaultValue: 0,
     },
   },
   {
@@ -22,5 +26,8 @@ BlogLike.init(
    
   },
 );
+
+
+
 
 module.exports = BlogLike;

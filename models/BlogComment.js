@@ -8,10 +8,14 @@ BlogComment.init(
     blogId: {
       type: DataTypes.INTEGER(),
       allowNull: false,
+      // remove once functionality is added
+      defaultValue: 0,
     },
     userId: {
       type: DataTypes.INTEGER(),
       allowNull: false,
+      // remove once functionality is added
+      defaultValue: 0,
     },
     comment: {
       type: DataTypes.STRING(100),

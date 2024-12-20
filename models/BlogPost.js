@@ -16,6 +16,9 @@ BlogPost.init(
     userId: {
       type: DataTypes.INTEGER(),
       allowNull: false,
+      // remove this once users have been implimented
+      // should be set to the post creators Id on creation
+      defaultValue: 0,
     },
     likeCount: {
       type: DataTypes.INTEGER(),
