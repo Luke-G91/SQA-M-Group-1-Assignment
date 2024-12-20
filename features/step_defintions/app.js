@@ -1,25 +1,28 @@
-const { Given, When, Then } = require("cucumber");
-const request = require("supertest");
 const express = require("express");
+const { Given, When, Then, After } = require("cucumber");
+const request = require("supertest");
 const expect = require("expect.js");
-const blogRoutes = require("../../routes/blog.js");
-const mockDatabase = require("../../test/mock/database.js");
-const path = require("path");
+const initTestServer = require("../utils/initializeTestServer.js");
+const indexRouter = require("../../routers/indexRouter.js");
+const sequelize = require("../../config/database.js");
 
 const app = express();
-app.set("views", path.join(__dirname, "../../views/"));
-app.set("view engine", "pug");
-app.use(express.urlencoded({ extended: true }));
-app.use("/", blogRoutes);
 
-const database = Given("I am a visitor", async function () {
-  const mockedDatbase = await mockDatabase();
-  console.log(mockedDatbase);
+After(async function () {
+  await sequelize.sync({ force: true });
+});
+
+Given("I am a visitor", async function () {
+  await initTestServer(
+    app,
+    [{ basePath: "/", router: indexRouter }],
+    sequelize,
+  );
 });
 
 When("I visit the home page", function (done) {
   request(app)
-    .get("/test")
+    .get("/home")
     .end((err, res) => {
       if (err) {
         return done(err);

@@ -1,4 +1,4 @@
-Feature: Home Page  
+Feature: Home Page
 
   Scenario: View the home page  
     Given I am a visitor  
