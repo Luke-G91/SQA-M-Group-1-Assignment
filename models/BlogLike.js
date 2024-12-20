@@ -5,12 +5,7 @@ class BlogLike extends Model {}
 
 BlogLike.init(
   {
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-    },
+    
     blog_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -23,7 +18,7 @@ BlogLike.init(
   {
     sequelize,
     modelName: "BlogLike",
-    tableName: "BlogLikes", 
+    tableName: "BlogLike", 
    
   },
 );
