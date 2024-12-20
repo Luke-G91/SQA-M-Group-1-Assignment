@@ -5,7 +5,7 @@ const sequelize = require("../config/database.js");
 
 beforeAll(async () => {
   const app = express();
-  await initTestServer(app, [], sequelize);
+  await initTestServer(app, sequelize);
 });
 
 describe("Blog controller", () => {
