@@ -7,15 +7,13 @@ BlogComment.init(
   {
     blogId: {
       type: DataTypes.INTEGER(),
-      allowNull: false,
       // remove once functionality is added
-      defaultValue: 0,
+      allowNull: true,
     },
     userId: {
       type: DataTypes.INTEGER(),
-      allowNull: false,
       // remove once functionality is added
-      defaultValue: 0,
+      allowNull: true,
     },
     comment: {
       type: DataTypes.STRING(100),
@@ -28,18 +26,5 @@ BlogComment.init(
     tableName: "BlogComment",
   },
 );
-
-// Comment Associations
-// One to many association for BlogPost to BlogComment
-BlogPost.hasMany(BlogComment, {
-  foreignKey: 'blogId',
-});
-
-
-// One to many association for User to BlogComment
-User.hasMany(BlogComment, {
-  foreignKey: 'userId',
-});
-
 
 module.exports = BlogComment;
