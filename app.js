@@ -31,7 +31,7 @@ function startServer() {
 
 async function syncDatabase() {
   try {
-    await sequelize.sync({Force: true});
+    await sequelize.sync();
     console.log("Database synchronized");
   } catch (error) {
     console.error("Failed to sync database:", error);

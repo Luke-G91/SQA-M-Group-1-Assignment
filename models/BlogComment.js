@@ -29,4 +29,17 @@ BlogComment.init(
   },
 );
 
+// Comment Associations
+// One to many association for BlogPost to BlogComment
+BlogPost.hasMany(BlogComment, {
+  foreignKey: 'blogId',
+});
+
+
+// One to many association for User to BlogComment
+User.hasMany(BlogComment, {
+  foreignKey: 'userId',
+});
+
+
 module.exports = BlogComment;
