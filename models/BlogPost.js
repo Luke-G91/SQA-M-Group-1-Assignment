@@ -13,11 +13,19 @@ BlogPost.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    author: {
-      type: DataTypes.STRING(100),
+    userId: {
+      type: DataTypes.INTEGER(),
       allowNull: false,
+      // remove this once users have been implimented
+      // should be set to the post creators Id on creation
+      defaultValue: 0,
     },
     likeCount: {
+      type: DataTypes.INTEGER(),
+      allowNull: false,
+      defaultValue: 0,
+    },
+    commentCount: {
       type: DataTypes.INTEGER(),
       allowNull: false,
       defaultValue: 0,
@@ -34,5 +42,8 @@ BlogPost.init(
     tableName: "BlogPost",
   },
 );
+
+
+
 
 module.exports = BlogPost;
