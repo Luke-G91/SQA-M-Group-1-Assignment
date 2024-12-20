@@ -7,15 +7,13 @@ BlogLike.init(
   {
     blogId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       // remove once functionality is added
-      defaultValue: 0,
+      allowNull: true,
     },
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       // remove once functionality is added
-      defaultValue: 0,
+      allowNull: true,
     },
   },
   {
@@ -26,4 +24,3 @@ BlogLike.init(
 );
 
 module.exports = BlogLike;
-

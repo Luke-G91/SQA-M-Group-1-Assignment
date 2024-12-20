@@ -15,10 +15,9 @@ BlogPost.init(
     },
     userId: {
       type: DataTypes.INTEGER(),
-      allowNull: false,
       // remove this once users have been implimented
       // should be set to the post creators Id on creation
-      defaultValue: 0,
+      allowNull: true,
     },
     likeCount: {
       type: DataTypes.INTEGER(),
@@ -42,8 +41,5 @@ BlogPost.init(
     tableName: "BlogPost",
   },
 );
-
-
-
 
 module.exports = BlogPost;
