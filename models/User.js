@@ -3,7 +3,7 @@ const sequelize = require("../config/database");
 
 class User extends Model {}
 
-BlogComment.init(
+User.init(
   {
     firstName: {
       type: DataTypes.STRING(255),
@@ -20,14 +20,14 @@ BlogComment.init(
     },
     displayName: {
       type: DataTypes.STRING(255),
-      allowNull: true, 
+      allowNull: true,
     },
     hashedPassword: {
       type: DataTypes.STRING(255),
       allowNull: false,
     },
     profilePicture: {
-      type: DataTypes.TEXT, 
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     bio: {
@@ -36,12 +36,10 @@ BlogComment.init(
     },
   },
   {
-    
-      sequelize,
-      modelName: "BlogUser",
-      tableName: "BlogUser",
-    
-  }
+    sequelize,
+    modelName: "BlogUser",
+    tableName: "BlogUser",
+  },
 );
 
 module.exports = User;
