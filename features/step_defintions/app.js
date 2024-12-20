@@ -8,10 +8,6 @@ const sequelize = require("../../config/database.js");
 
 const app = express();
 
-After(async function () {
-  await sequelize.sync({ force: true });
-});
-
 Given("I am a visitor", async function () {
   await initTestServer(
     app,
@@ -35,4 +31,8 @@ When("I visit the home page", function (done) {
 Then("I should see {string}", function (message, done) {
   expect(this.response.text).to.contain(message);
   done();
+});
+
+After(async function () {
+  await sequelize.sync({ force: true });
 });
