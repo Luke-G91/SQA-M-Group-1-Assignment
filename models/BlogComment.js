@@ -5,11 +5,11 @@ class BlogComment extends Model {}
 
 BlogComment.init(
   {
-    blog_id: {
+    blogId: {
       type: DataTypes.INTEGER(),
       allowNull: false,
     },
-    user_id: {
+    userId: {
       type: DataTypes.INTEGER(),
       allowNull: false,
     },
