@@ -1,2 +1,2 @@
 li
-  a(href=`/blog/${post.id}`) #{post.title} by #{post.author} (#{post.createdAt.toLocaleDateString()})
+  a(href=`/blog/${post.id}`) #{post.title} by #{post.user.displayName} (#{post.createdAt.toLocaleDateString()})

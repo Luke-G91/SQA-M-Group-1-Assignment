@@ -9,7 +9,11 @@ router.get("/", (req, res) => {
 
 router.get("/home", async (req, res) => {
   const posts = await blogPostController.getAllBlogPosts();
-  res.render("pages/home", { title: "Blog Posts", posts });
+
+  res.render("pages/home", {
+    title: "Blog Posts",
+    posts,
+  });
 });
 
 router.get("/stats", async (req, res) => {

@@ -3,5 +3,6 @@ extends ../layout
 block content
   p.post-meta By #{post.author} (Posted on #{post.createdAt.toLocaleString()})
   p.post-content= post.content
-  a(href=`/blog/${post.id}/edit`) Edit Post
+  if user.id == post.user.id
+    a(href=`/blog/${post.id}/edit`) Edit Post
 

@@ -37,8 +37,8 @@ User.init(
   },
   {
     sequelize,
-    modelName: "BlogUser",
-    tableName: "BlogUser",
+    modelName: "user",
+    tableName: "User",
   },
 );
 

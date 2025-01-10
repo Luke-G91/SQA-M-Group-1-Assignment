@@ -13,12 +13,6 @@ BlogPost.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    userId: {
-      type: DataTypes.INTEGER(),
-      // remove this once users have been implimented
-      // should be set to the post creators Id on creation
-      allowNull: true,
-    },
     likeCount: {
       type: DataTypes.INTEGER(),
       allowNull: false,
@@ -37,7 +31,7 @@ BlogPost.init(
   },
   {
     sequelize,
-    modelName: "BlogPost",
+    modelName: "blogPost",
     tableName: "BlogPost",
   },
 );
