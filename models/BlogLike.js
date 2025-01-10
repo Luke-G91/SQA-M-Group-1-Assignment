@@ -18,7 +18,7 @@ BlogLike.init(
   },
   {
     sequelize,
-    modelName: "BlogLike",
+    modelName: "blogLike",
     tableName: "BlogLike",
   },
 );

@@ -22,7 +22,7 @@ BlogComment.init(
   },
   {
     sequelize,
-    modelName: "BlogComment",
+    modelName: "blogComment",
     tableName: "BlogComment",
   },
 );

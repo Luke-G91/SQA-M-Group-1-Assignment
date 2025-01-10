@@ -1,8 +1,12 @@
-const { BlogPost } = require("../models/index");
+const { BlogPost, User } = require("../models/index");
 
 exports.getAllBlogPosts = async () => {
   try {
-    return await BlogPost.findAll();
+    const blogs = await BlogPost.findAll({
+      include: User,
+    });
+
+    return blogs;
   } catch (error) {
     console.error("Error fetching blog posts:", error);
     throw error;
@@ -24,13 +28,14 @@ exports.getBlogStats = async () => {
   return stats;
 };
 
-exports.createBlogPost = async (blog) => {
+exports.createBlogPost = async (blog, user) => {
   try {
     const newPost = await BlogPost.create({
       title: blog.title,
       content: blog.content,
       author: blog.author,
       likes: blog.likes || 0,
+      userId: user.id,
     });
 
     console.log("Blog post created successfully:", newPost);
@@ -47,7 +52,7 @@ exports.createBlogPost = async (blog) => {
 
 exports.getBlogPostById = async (id) => {
   try {
-    const post = await BlogPost.findByPk(id);
+    const post = await BlogPost.findByPk(id, { include: User });
     return post;
   } catch (error) {
     console.error(`Error fetching post with id ${id}:`, error);
