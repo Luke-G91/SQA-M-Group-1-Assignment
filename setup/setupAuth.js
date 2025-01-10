@@ -1,3 +1,7 @@
+const expressSession = require("express-session");
+const LocalStrategy = require("passport-local").Strategy;
+const userController = require("../controllers/userController.js");
+
 function setupAuth(app, session, passport) {
   app.use(expressSession(session));
 

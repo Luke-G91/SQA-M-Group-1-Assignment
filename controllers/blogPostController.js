@@ -33,7 +33,6 @@ exports.createBlogPost = async (blog, user) => {
     const newPost = await BlogPost.create({
       title: blog.title,
       content: blog.content,
-      author: blog.author,
       likes: blog.likes || 0,
       userId: user.id,
     });
