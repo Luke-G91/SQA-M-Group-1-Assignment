@@ -6,7 +6,7 @@ require("dotenv").config();
 const env = process.env.NODE_ENV;
 let sequelize = null;
 
-if (env === "test") {
+if (env === "test" || env === "dev") {
   sequelize = new Sequelize({
     dialect: "sqlite",
     storage: path.join(__dirname, "..", "database.sqlite"),
@@ -19,7 +19,7 @@ if (env === "test") {
       "Environment variable DATABASE_URL is not defined.",
     );
   }
-  sequelize = new Sequelize(process.env.DATABASE_URL);
+  sequelize = new Sequelize(connectionString);
 }
 
 module.exports = sequelize;
