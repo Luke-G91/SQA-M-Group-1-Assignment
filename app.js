@@ -37,6 +37,5 @@ const session = {
   resave: false,
   saveUninitialized: false,
 };
-console.log(session);
 
 initializeServer(app, port, passport, session);
