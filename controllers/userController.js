@@ -57,6 +57,8 @@ exports.addUser = async (user) => {
 };
 
 function createUserViewModel(user) {
+  // return view model, which only contains information required by frontend
+  // hashed password is not returned
   return {
     id: user.id,
     firstName: user.firstName,
