@@ -5,4 +5,14 @@ block content
   p.post-content= post.content
   if user.id == post.user.id
     a(href=`/blog/${post.id}/edit`) Edit Post
+  // Add like button and like count
+  div.like-section
+    button(id=`like-button-${post.id}`, onclick=`handleLike(${post.id})`, class=post.liked ? 'liked' : '') #{post.liked ? 'Liked' : 'Like'} (#{post.likeCount})
+  script.
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if the post is liked and add the 'liked' class
+      if (#{post.liked}) {
+        document.getElementById('like-button-#{post.id}').classList.add('liked');
+      }
+    });
 

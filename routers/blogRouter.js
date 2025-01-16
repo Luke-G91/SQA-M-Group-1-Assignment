@@ -14,7 +14,8 @@ router.post("/create", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const post = await blogPostController.getBlogPostById(req.params.id);
+    // Fetch the blog post and check if the user has liked it
+    const post = await blogPostController.getBlogPostById(req.params.id, req.user ? req.user.id : null, req.user);
     if (post) {
       res.render("pages/blog", { title: post.title, post, user: req.user });
     } else {
@@ -27,7 +28,7 @@ router.get("/:id", async (req, res) => {
 
 router.get("/:id/edit", async (req, res) => {
   try {
-    const post = await blogPostController.getBlogPostById(req.params.id);
+    const post = await blogPostController.getBlogPostById(req.params.id, req.user ? req.user.id : null, req.user);
     if (post) {
       res.render("pages/editBlog", { title: "Edit Post", post });
     } else {
@@ -61,6 +62,14 @@ router.post("/:id/delete", async (req, res) => {
   } else {
     res.status(404).send("Post not found");
   }
+});
+
+router.post("/:id/like", async (req, res) => {
+  if (!req.user) {
+    return res.json({ success: false, message: "User not logged in" });
+  }
+  const { liked, likeCount } = await blogPostController.toggleLike(req.params.id, req.user.id);
+  res.json({ success: true, liked, likeCount });
 });
 
 module.exports = router;

@@ -9,3 +9,15 @@
 #container{
     padding: 5px 20px;
 }
+
+button[id^="like-button-"] {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+button[id^="like-button-"].liked {
+  background-color: #28a745;
+}
