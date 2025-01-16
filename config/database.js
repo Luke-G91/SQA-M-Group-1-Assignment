@@ -6,8 +6,8 @@ require("dotenv").config();
 const env = process.env.NODE_ENV;
 let sequelize = null;
 
-if (env === "test" || env === "dev") {
-  // use SQLite database for test and dev environments
+if (env === "test" || env === "local") {
+  // use SQLite database for test and local environments
   sequelize = new Sequelize({
     dialect: "sqlite",
     storage: path.join(__dirname, "..", "database.sqlite"),
