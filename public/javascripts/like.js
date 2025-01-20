@@ -1,6 +1,6 @@
-/* eslint-disable-next-line no-unused-vars */
-// This function is used in the Pug template blog.pug
 // Function to handle the like action for a post
+// This function is used in the Pug template blog.pug
+/* eslint-disable-next-line no-unused-vars */
 function handleLike(postId) {
   // Send a POST request to the server to like the post
   fetch(`/blog/${postId}/like`, { method: 'POST' })
