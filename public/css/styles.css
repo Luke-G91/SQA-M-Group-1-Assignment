@@ -48,4 +48,31 @@ body {
     background: #ff0000;
   }
   
+  .search-section {
+    margin: 2rem;
+    text-align: center;
+  }
+  
+  .search-wrapper {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .search-section .search-wrapper input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .search-wrapper button {
+    margin-right: 0.5rem;  /* Adds space between the buttons */
+  }
+  
+  .search-wrapper button:last-child {
+    margin-right: 0;  /* Ensures no extra margin on the last button */
+  }
+  
   
