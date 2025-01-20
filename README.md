@@ -24,12 +24,12 @@
 
 ## Team Contributions
 
-| Team Member      | Login Flow | Search and Home Improvements | Likes and Comments | User Profiles |
-| ---------------- | ---------- | ---------------------------- | ------------------ | ------------- |
-| Ben Hayward      |            |                              | ✔                 |               |
-| Elijah Kalambayi |            |                              |                    | ✔            |
-| Ismahän Hassan   |            | ✔                           |                    |               |
-| Luke Goodwin     | ✔         |                              |                    |               |
+| Team Member      | Login Flow | Search and Home Improvements | Likes and Comments | User Profiles | README documentation | Unit Tests | Integration Tests | BDD Tests |
+| ---------------- | ---------- | ---------------------------- | ------------------ | ------------- | -------------------- | ---------- | ----------------- | --------- |
+| Ben Hayward      |            |                              | ✔                 |               |                      |            |                   |           |
+| Elijah Kalambayi |            |                              |                    | ✔            |                      |            |                   |           |
+| Ismahän Hassan   |            | ✔                           |                    |               |                      |            |                   |           |
+| Luke Goodwin     | ✔         |                              |                    |               | ✔                   |            |                   |           |
 
 # Setup Instructions
 
@@ -122,10 +122,10 @@
 
 ## Challenges and Solutions
 
-| Challenge                      | Solution                                              |
-| ------------------------------ | ----------------------------------------------------- |
-| Implementing secure login      | Used bcrypt for password hashing and CSRF protection. |
-| Enhancing search functionality | Optimized database queries and improved UI.           |
+| Challenge                 | Risk                                                                                                                        | Solution                                                                                                                     |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Implementing secure login | User details including passwords are accessible that and anyone can access anyone else's account                            | Used bcrypt for password hashing and CSRF protection.                                                                        |
+| SQL injection             | Database queries such as blog post search could allow SQL queries to be added to the search to leak or modify database data | Sequlize uses paramteised queries which safely escape and inject parameters to prevent malicious alteration of the SQL query |
 
 ## Evidence for Marking Criteria
 
