@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-// Search section for entering a query and submitting it to /home
+  //Search section for entering a query and submitting it to home
   section.search-section
     .search-wrapper
       form(action="/home" method="GET")
@@ -9,7 +9,7 @@ block content
         input(type="search" id="search" name="query" placeholder="Search for inspiration...")
         button(type="submit") Search
         button(type="button" onclick="window.location='/home'") Clear
- // Check if there are any posts to display
+  // Check if there are any posts to display
   if posts.length
     ul
       each post in posts
