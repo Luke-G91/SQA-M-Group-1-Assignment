@@ -2,6 +2,7 @@ const { BlogPost, User } = require("../models/index");
 
 exports.getAllBlogPosts = async () => {
   try {
+    // returns all blogs, with the linked user (using userId) added in the response
     const blogs = await BlogPost.findAll({
       include: User,
     });
@@ -51,6 +52,7 @@ exports.createBlogPost = async (blog, user) => {
 
 exports.getBlogPostById = async (id) => {
   try {
+    // returns the blog with matching id, with the linked user (using userId) added in the response
     const post = await BlogPost.findByPk(id, { include: User });
     return post;
   } catch (error) {
@@ -78,6 +80,7 @@ exports.deletePostById = async (id) => {
   try {
     const post = await this.getBlogPostById(id);
     await post.destroy();
+    // return true if the post is found and deleted, else false
     return !!post;
   } catch (error) {
     console.error(`Error updating post with id ${id}:`, error);
