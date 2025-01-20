@@ -22,7 +22,7 @@ router.get("/:id", async (req, res) => {
       res.status(404).send("Post not found");
     }
   } catch (error) {
-    res.status(500).send("Internal server error");
+    res.status(500).send("Internal server error:", error);
   }
 });
 
@@ -35,7 +35,7 @@ router.get("/:id/edit", async (req, res) => {
       res.status(404).send("Post not found");
     }
   } catch (error) {
-    res.status(500).send("Internal server error");
+    res.status(500).send("Internal server error:", error);
   }
 });
 
@@ -51,7 +51,7 @@ router.post("/:id/edit", async (req, res) => {
       res.status(404).send("Post not found");
     }
   } catch (error) {
-    res.status(500).send("Internal server error");
+    res.status(500).send("Internal server error:", error);
   }
 });
 
