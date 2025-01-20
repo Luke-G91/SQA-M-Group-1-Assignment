@@ -1,0 +1,9 @@
+extends ../layout
+
+block content
+  h2 Write a Comment
+  form(action=`/blog/${post.id}/comment` method="post")
+    textarea(name="comment", placeholder="Write a comment...", maxlength="500")
+    p.char-count <span class="comment-char-count">0</span>/500
+    button(type="submit") Post Comment
+    p.error-message(style="display: none;")

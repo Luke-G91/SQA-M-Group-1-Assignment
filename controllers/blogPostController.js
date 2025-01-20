@@ -1,5 +1,5 @@
 const { Op, Sequelize } = require("sequelize")
-const { BlogPost, User, BlogLike } = require("../models/index");
+const { BlogPost, User, BlogLike, BlogComment } = require("../models/index");
 
 // Fetches blog posts based on a search query. The search is case-insensitive and checks for matches
 // in the title, content, or user's display name of the blog posts.
@@ -75,10 +75,23 @@ exports.createBlogPost = async (blog, user) => {
 
 exports.getBlogPostById = async (id, userId) => {
   try {
-    // returns the blog with matching id, with the linked user (using userId) added in the response
-    const post = await BlogPost.findByPk(id, { include: User });
+    const post = await BlogPost.findByPk(id, {
+      include: [
+        User,
+        {
+          model: BlogComment,
+          as: 'comments',
+          include: [{
+            model: User,
+            attributes: ['displayName']
+          }],
+          separate: true,
+          order: [['createdAt', 'DESC']]
+        }
+      ]
+    });
+    
     if (post && userId) {
-      // Check if the user has liked the post
       const like = await BlogLike.findOne({ where: { blogId: id, userId } });
       post.dataValues.liked = !!like;
     } else {
@@ -138,6 +151,74 @@ exports.toggleLike = async (postId, userId) => {
     return { liked, likeCount: post.likeCount };
   } catch (error) {
     console.error(`Error toggling like for post with id ${postId}:`, error);
+    throw error;
+  }
+};
+
+exports.addComment = async (commentData, user) => {
+  try {
+    console.log('Received comment data:', commentData); // Debug log
+
+    // Basic validation
+    if (!commentData || typeof commentData.comment !== 'string') {
+      console.log('Invalid comment data received:', commentData);
+      throw new Error('Comment text is required');
+    }
+
+    const trimmedComment = commentData.comment.trim();
+    if (!trimmedComment) {
+      throw new Error('Comment cannot be empty');
+    }
+
+    if (trimmedComment.length > 500) {
+      throw new Error('Comment cannot exceed 500 characters');
+    }
+
+    // Create the comment
+    const newComment = await BlogComment.create({
+      comment: trimmedComment,
+      blogId: commentData.blogId,
+      userId: user.id
+    });
+
+    console.log('Created comment:', newComment.toJSON()); // Debug log
+
+    // Update comment count
+    await BlogPost.increment('commentCount', {
+      where: { id: commentData.blogId }
+    });
+
+    // Return with user info
+    const commentWithUser = await BlogComment.findByPk(newComment.id, {
+      include: [{
+        model: User,
+        attributes: ['displayName']
+      }]
+    });
+
+    console.log('Returning comment with user:', commentWithUser.toJSON()); // Debug log
+    return commentWithUser;
+  } catch (error) {
+    console.error('Error in addComment:', error);
+    throw error;
+  }
+};
+
+exports.updateComment = async (commentId, userId, comment) => {
+  try {
+    if (!comment) {
+      throw new Error('Comment cannot be empty');
+    }
+
+    const existingComment = await BlogComment.findByPk(commentId);
+    if (!existingComment || existingComment.userId !== userId) {
+      return null;
+    }
+
+    await existingComment.update({ comment });
+    return existingComment;
+  } catch (error) {
+    console.error('Error updating comment:', error);
     throw error;
   }
 };

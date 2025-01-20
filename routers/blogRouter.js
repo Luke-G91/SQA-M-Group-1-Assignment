@@ -72,4 +72,41 @@ router.post("/:id/like", async (req, res) => {
   res.json({ success: true, liked, likeCount });
 });
 
+router.get("/:id/comment", (req, res) => {
+  res.render("pages/commentForm", { title: "Write a Comment", post: { id: req.params.id } });
+});
+
+router.post("/:id/comment", async (req, res) => {
+  if (!req.user) {
+    return res.redirect('/login');
+  }
+
+  try {
+    const newComment = await blogPostController.addComment({
+      comment: req.body.comment,
+      blogId: req.params.id,
+      userId: req.user.id
+    }, req.user);
+
+    res.redirect(`/blog/${req.params.id}`);
+  } catch (error) {
+    res.status(400).render('error', { error: error.message });
+  }
+});
+
+router.put("/comment/:id", async (req, res) => {
+  if (!req.user) {
+    return res.json({ success: false, message: "You must be logged in to edit comments" });
+  }
+  try {
+    const comment = await blogPostController.updateComment(req.params.id, req.user.id, req.body.comment);
+    if (!comment) {
+      return res.status(403).json({ success: false, message: "Not authorized to edit this comment" });
+    }
+    res.json({ success: true, comment });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error updating comment" });
+  }
+});
+
 module.exports = router;

@@ -1,18 +1,38 @@
 extends ../layout
 
 block content
-  p.post-meta By #{post.author} (Posted on #{post.createdAt.toLocaleString()})
-  p.post-content= post.content
-  if user.id == post.user.id
-    a(href=`/blog/${post.id}/edit`) Edit Post
-  // Add like button and like count
-  div.like-section
-    button(id=`like-button-${post.id}`, onclick=`handleLike(${post.id})`, class=post.liked ? 'liked' : '') #{post.liked ? 'Liked' : 'Like'} (#{post.likeCount})
+  .fullscreen-blog-post
+    h2 #{post.title}
+    p.post-meta By #{post.author} (Posted on #{post.createdAt.toLocaleString()})
+    p.post-content= post.content
+    if user.id == post.user.id
+      a(href=`/blog/${post.id}/edit`) Edit Post
+    
+    div.like-section
+      button(id=`like-button-${post.id}`, onclick=`handleLike(${post.id})`, class=post.liked ? 'liked' : '') #{post.liked ? 'Liked' : 'Like'} (#{post.likeCount})
+    
+    div.comment-section
+      button#view-comments(onclick=`toggleComments()`) View Comments (#{post.commentCount})
+      div#comments-container(style='display: none;')
+        if user
+          a(href=`/blog/${post.id}/comment`) Write a Comment
+        else
+          p Please <a href="/login">login</a> to comment
+        div#comments-list
+          each comment in post.comments || []
+            include ../components/comment
+
+  script(src='/javascripts/comments.js')
   script.
+    const post = {
+      id: '#{post.id}',
+      commentCount: #{post.commentCount || 0},
+      liked: #{post.liked ? 'true' : 'false'}
+    };
+    
     document.addEventListener('DOMContentLoaded', function() {
-      // Check if the post is liked and add the 'liked' class
-      if (#{post.liked}) {
-        document.getElementById('like-button-#{post.id}').classList.add('liked');
+      if (#{post.liked ? 'true' : 'false'}) {
+        document.getElementById(`like-button-${post.id}`).classList.add('liked');
       }
     });
 

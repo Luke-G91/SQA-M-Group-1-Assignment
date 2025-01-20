@@ -37,14 +37,14 @@ exports.authUser = async (email, password, done) => {
 
 exports.addUser = async (user) => {
   try {
+    const hashedPassword = await bcrypt.hash(user.password, 10);
     const newUser = await User.create({
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
       displayName: user.displayName,
-      hashedPassword: user.password,
+      hashedPassword: hashedPassword,
       profilePicture: user.profilePicture,
-      bio: user.bio,
     });
 
     const newUserViewModel = createUserViewModel(newUser);

@@ -7,24 +7,28 @@ const User = require("./User");
 User.hasMany(BlogPost, { foreignKey: 'userId' });
 BlogPost.belongsTo(User, { foreignKey: 'userId' });
 
+// Like associations
 User.belongsToMany(BlogPost, { through: BlogLike, foreignKey: 'userId', otherKey: 'blogId' });
 BlogPost.belongsToMany(User, { through: BlogLike, foreignKey: 'blogId', otherKey: 'userId' });
 
 BlogLike.belongsTo(User, { foreignKey: 'userId' });
 BlogLike.belongsTo(BlogPost, { foreignKey: 'blogId' });
 
-// Comment Associations
-// One to many association for BlogPost to BlogComment
+// Comment associations
 BlogPost.hasMany(BlogComment, {
-  foreignKey: "blogId",
+  foreignKey: 'blogId',
+  as: 'comments'
 });
-BlogComment.belongsTo(BlogPost);
+BlogComment.belongsTo(BlogPost, {
+  foreignKey: 'blogId'
+});
 
-// One to many association for User to BlogComment
 User.hasMany(BlogComment, {
-  foreignKey: "userId",
+  foreignKey: 'userId'
 });
-BlogComment.belongsTo(User);
+BlogComment.belongsTo(User, {
+  foreignKey: 'userId'
+});
 
 module.exports = {
   User,
