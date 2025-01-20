@@ -1,7 +1,7 @@
 const { BlogPost, User } = require("../models/index");
 const { Op, Sequelize } = require("sequelize")
 
-exports.getAllBlogPosts = async (searchQuery) => {
+exports.getAllBlogPosts = async (searchQuery = "") => {
   try {
     // returns all blogs, with the linked user (using userId) added in the response
     const blogs = await BlogPost.findAll({
