@@ -14,29 +14,34 @@ const indexRouter = require("./routers/indexRouter.js");
 const blogRouter = require("./routers/blogRouter.js");
 const authRouter = require("./routers/authRouter.js");
 
-async function initializeServer(app, port, passport, session) {
+async function initializeServer(app, port, passport, session, routers) {
+  // setup all requirements for express server
   setupViewEngine(app);
   setupMiddleware(app);
   setupAuth(app, session, passport);
   setupFlash(app);
-  setupRoutes(app, [
-    { basePath: "/", router: indexRouter },
-    { basePath: "/", router: authRouter },
-    { basePath: "/blog", router: blogRouter },
-  ]);
+  setupRoutes(app, routers);
 
   await syncDatabase(sequelize);
+
   startServer(app, port);
 }
 
 const app = express();
+// port the application will be exposed on
 const port = process.env.PORT || 3000;
+// session config required for passport setup
 const session = {
   secret: process.env.SESSION_SECRET,
   cookie: {},
   resave: false,
   saveUninitialized: false,
 };
-console.log(session);
+// list of routers and the starting path
+const routers = [
+  { basePath: "/", router: indexRouter },
+  { basePath: "/", router: authRouter },
+  { basePath: "/blog", router: blogRouter },
+];
 
-initializeServer(app, port, passport, session);
+initializeServer(app, port, passport, session, routers);

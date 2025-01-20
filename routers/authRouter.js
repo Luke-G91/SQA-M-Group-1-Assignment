@@ -19,7 +19,7 @@ router.post(
   }),
 );
 
-router.get("/logout", (req, res) => {
+router.get("/logout", (req, res, next) => {
   req.logout((err) => {
     if (err) {
       return next(err);
@@ -34,6 +34,7 @@ router.get("/register", (req, res) => {
 
 router.post("/register", async (req, res) => {
   try {
+    // hash password using salt rounds for improved security
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
 
