@@ -1,16 +1,30 @@
 const { BlogPost, User } = require("../models/index");
-const { Op } = require("sequelize")
+const { Op, Sequelize } = require("sequelize")
 
 exports.getAllBlogPosts = async (searchQuery) => {
   try {
-    const blogs = await BlogPost.findAll({
+    const blogs = await BlogPost.findAll({  
       include: User,
-      where: {
-        title: {
-          [Op.iLike]: `%${searchQuery}%`, // Case-insensitive search
-        },
-      },
-    });
+      where: {  
+        [Op.or]: [  
+          Sequelize.where(  
+            Sequelize.fn('LOWER', Sequelize.col('title')),  
+            'LIKE',  
+            `%${searchQuery.toLowerCase()}%`  
+          ),  
+          Sequelize.where(  
+            Sequelize.fn('LOWER', Sequelize.col('content')),  
+            'LIKE',  
+            `%${searchQuery.toLowerCase()}%`  
+          ), 
+          Sequelize.where(  
+            Sequelize.fn('LOWER', Sequelize.col('user.displayName')),  
+            'LIKE',  
+            `%${searchQuery.toLowerCase()}%`  
+          )
+        ]  
+      }  
+    })
     
     return blogs;
   } catch (error) {
