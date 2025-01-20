@@ -7,13 +7,23 @@ BlogLike.init(
   {
     blogId: {
       type: DataTypes.INTEGER,
-      // remove once functionality is added
-      allowNull: true,
+      allowNull: false,
+      references: {
+        model: 'BlogPost',
+        key: 'id'
+      },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
     },
     userId: {
       type: DataTypes.INTEGER,
-      // remove once functionality is added
-      allowNull: true,
+      allowNull: false,
+      references: {
+        model: 'User',
+        key: 'id'
+      },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
     },
   },
   {
