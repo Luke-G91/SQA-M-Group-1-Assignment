@@ -1,5 +1,6 @@
 async function syncDatabase(sequelize, force = false) {
   try {
+    // sync database, if force is true the existing data will be overriden
     await sequelize.sync({ force: force });
     console.log("Database synchronized");
   } catch (error) {
