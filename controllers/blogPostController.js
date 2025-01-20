@@ -1,6 +1,9 @@
 const { BlogPost, User } = require("../models/index");
 const { Op, Sequelize } = require("sequelize")
 
+// Fetches blog posts based on a search query. The search is case-insensitive and checks for matches
+// in the title, content, or user's display name of the blog posts.
+// The `BlogPost.findAll` method is used to query the database, and it includes the associated `User`
 exports.getAllBlogPosts = async (searchQuery = "") => {
   try {
     // returns all blogs, with the linked user (using userId) added in the response

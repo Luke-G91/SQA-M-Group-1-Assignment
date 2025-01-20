@@ -47,7 +47,8 @@ body {
   button.danger {
     background: #ff0000;
   }
-  
+  //styles for the search section, centering the content and creating spacing between elements.
+
   .search-section {
     margin: 2rem;
     text-align: center;
