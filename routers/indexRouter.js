@@ -8,13 +8,15 @@ router.get("/", (req, res) => {
 });
 
 router.get("/home", async (req, res) => {
-  const posts = await blogPostController.getAllBlogPosts();
+  const searchQuery = req.query.query || "";
+  const posts = await blogPostController.getAllBlogPosts(searchQuery);
 
   res.render("pages/home", {
     title: "Blog Posts",
     posts,
   });
 });
+
 
 router.get("/stats", async (req, res) => {
   const stats = await blogPostController.getBlogStats();

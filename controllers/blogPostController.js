@@ -1,11 +1,17 @@
 const { BlogPost, User } = require("../models/index");
+const { Op } = require("sequelize")
 
-exports.getAllBlogPosts = async () => {
+exports.getAllBlogPosts = async (searchQuery) => {
   try {
     const blogs = await BlogPost.findAll({
       include: User,
+      where: {
+        title: {
+          [Op.iLike]: `%${searchQuery}%`, // Case-insensitive search
+        },
+      },
     });
-
+    
     return blogs;
   } catch (error) {
     console.error("Error fetching blog posts:", error);
