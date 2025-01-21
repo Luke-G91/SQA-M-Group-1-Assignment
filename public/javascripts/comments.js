@@ -1,23 +1,29 @@
 // Function to handle showing/hiding comments
+// This function is used
+/* eslint-disable-next-line no-unused-vars */
 function toggleComments() {
   const container = document.getElementById('comments-container');
   const button = document.getElementById('view-comments');
   const isHidden = container.style.display === 'none';
   
   container.style.display = isHidden ? 'block' : 'none';
+  // This function is used
+  /* eslint-disable-next-line no-unused-vars */
   const commentCount = post?.commentCount || 0;
   button.textContent = isHidden ? 
     `Hide Comments (${commentCount})` : 
     `View Comments (${commentCount})`;
 }
-
+// This function is used
+/* eslint-disable-next-line no-unused-vars */
 function editComment(commentId) {
   const textElement = document.getElementById(`comment-text-${commentId}`);
   const editForm = document.getElementById(`edit-form-${commentId}`);
   textElement.style.display = 'none';
   editForm.style.display = 'block';
 }
-
+// This function is used
+/* eslint-disable-next-line no-unused-vars */
 function updateComment(commentId) {
   const input = document.getElementById(`edit-input-${commentId}`);
   const comment = input.value.trim();

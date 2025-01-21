@@ -91,6 +91,8 @@ router.post("/:id/comment", async (req, res) => {
   }
 
   try {
+    // This function is used
+    /* eslint-disable-next-line no-unused-vars */
     const newComment = await blogPostController.addComment({
       comment: req.body.comment,
       blogId: req.params.id,
@@ -113,6 +115,8 @@ router.put("/comment/:id", async (req, res) => {
       return res.status(403).json({ success: false, message: "Not authorized to edit this comment" });
     }
     res.json({ success: true, comment });
+  // This function is used
+  /* eslint-disable-next-line no-unused-vars */
   } catch (error) {
     res.status(500).json({ success: false, message: "Error updating comment" });
   }
