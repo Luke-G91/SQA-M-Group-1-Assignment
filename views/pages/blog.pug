@@ -12,7 +12,7 @@ block content
       button(id=`like-button-${post.id}`, onclick=`handleLike(${post.id})`, class=post.liked ? 'liked' : '') #{post.liked ? 'Liked' : 'Like'} (#{post.likeCount})
     
     div.comment-section
-      button#view-comments(onclick=`toggleComments()`) View Comments (#{post.commentCount})
+      button#view-comments(onclick=`toggleComments(post)`) View Comments (#{post.commentCount})
       div#comments-container(style='display: none;')
         if user
           a(href=`/blog/${post.id}/comment`) Write a Comment

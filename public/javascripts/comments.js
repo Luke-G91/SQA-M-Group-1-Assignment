@@ -1,14 +1,10 @@
 // Function to handle showing/hiding comments
-// This function is used
-/* eslint-disable-next-line no-unused-vars */
-function toggleComments() {
+function toggleComments(post) {
   const container = document.getElementById('comments-container');
   const button = document.getElementById('view-comments');
   const isHidden = container.style.display === 'none';
   
   container.style.display = isHidden ? 'block' : 'none';
-// This function is used
-/* eslint-disable-next-line no-unused-vars */
   const commentCount = post?.commentCount || 0;
   button.textContent = isHidden ? 
     `Hide Comments (${commentCount})` : 
