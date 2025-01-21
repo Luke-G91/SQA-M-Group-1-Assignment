@@ -31,7 +31,7 @@ body {
 }
 
 form {
-  margin-bottom: 20px; /* Ensure space between form and link */
+  margin-bottom: 20px;
 }
 
 input {
@@ -74,4 +74,22 @@ h1 {
 
 .link-container a:hover {
   text-decoration: underline;
+}
+
+.error-message {
+  color: #d8000c;
+  font-size: 0.9em;
+  margin-top: -8px;
+  margin-bottom: 10px;
+  text-align: left;
+  display: block;
+}
+
+input:invalid {
+  border-color: #d8000c;
+}
+
+input:focus:invalid {
+  border-color: #d8000c;
+  box-shadow: 0 0 5px rgba(216, 0, 12, 0.5);
 }
