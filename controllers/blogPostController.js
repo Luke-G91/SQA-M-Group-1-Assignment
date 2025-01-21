@@ -157,7 +157,6 @@ exports.toggleLike = async (postId, userId) => {
 
 exports.addComment = async (commentData, user) => {
   try {
-    console.log('Received comment data:', commentData); // Debug log
 
     // Basic validation
     if (!commentData || typeof commentData.comment !== 'string') {
@@ -181,7 +180,6 @@ exports.addComment = async (commentData, user) => {
       userId: user.id
     });
 
-    console.log('Created comment:', newComment.toJSON()); // Debug log
 
     // Update comment count
     await BlogPost.increment('commentCount', {
@@ -196,7 +194,6 @@ exports.addComment = async (commentData, user) => {
       }]
     });
 
-    console.log('Returning comment with user:', commentWithUser.toJSON()); // Debug log
     return commentWithUser;
   } catch (error) {
     console.error('Error in addComment:', error);
