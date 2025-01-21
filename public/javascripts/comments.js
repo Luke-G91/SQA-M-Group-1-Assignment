@@ -7,8 +7,8 @@ function toggleComments() {
   const isHidden = container.style.display === 'none';
   
   container.style.display = isHidden ? 'block' : 'none';
-  // This function is used
-  /* eslint-disable-next-line no-unused-vars */
+// This function is used
+/* eslint-disable-next-line no-unused-vars */
   const commentCount = post?.commentCount || 0;
   button.textContent = isHidden ? 
     `Hide Comments (${commentCount})` : 
@@ -54,6 +54,8 @@ function cancelEdit(commentId) {
   editForm.style.display = 'none';
 }
 
+// This function is used
+  /* eslint-disable-next-line no-unused-vars */
 function createCommentHTML(comment) {
   return `
     <div class="comment" id="comment-${comment.id}">
