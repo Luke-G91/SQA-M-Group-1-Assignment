@@ -9,27 +9,27 @@ exports.getAllBlogPosts = async (searchQuery = "") => {
     // returns all blogs, with the linked user (using userId) added in the response
     const blogs = await BlogPost.findAll({
       include: User,
-      where: {  
-        [Op.or]: [  
-          Sequelize.where(  
-            Sequelize.fn('LOWER', Sequelize.col('title')),  
-            'LIKE',  
-            `%${searchQuery.toLowerCase()}%`  
-          ),  
-          Sequelize.where(  
-            Sequelize.fn('LOWER', Sequelize.col('content')),  
-            'LIKE',  
-            `%${searchQuery.toLowerCase()}%`  
-          ), 
-          Sequelize.where(  
-            Sequelize.fn('LOWER', Sequelize.col('user.displayName')),  
-            'LIKE',  
-            `%${searchQuery.toLowerCase()}%`  
-          )
-        ]  
-      }  
-    })
-    
+      where: {
+        [Op.or]: [
+          Sequelize.where(
+            Sequelize.fn("LOWER", Sequelize.col("title")),
+            "LIKE",
+            `%${searchQuery.toLowerCase()}%`,
+          ),
+          Sequelize.where(
+            Sequelize.fn("LOWER", Sequelize.col("content")),
+            "LIKE",
+            `%${searchQuery.toLowerCase()}%`,
+          ),
+          Sequelize.where(
+            Sequelize.fn("LOWER", Sequelize.col("user.displayName")),
+            "LIKE",
+            `%${searchQuery.toLowerCase()}%`,
+          ),
+        ],
+      },
+    });
+
     return blogs;
   } catch (error) {
     console.error("Error fetching blog posts:", error);
@@ -138,12 +138,12 @@ exports.toggleLike = async (postId, userId) => {
     if (like) {
       // If liked, remove the like and decrement the like count
       await like.destroy();
-      await BlogPost.decrement('likeCount', { where: { id: postId } });
+      await BlogPost.decrement("likeCount", { where: { id: postId } });
       liked = false;
     } else {
       // If not liked, add the like and increment the like count
       await BlogLike.create({ blogId: postId, userId });
-      await BlogPost.increment('likeCount', { where: { id: postId } });
+      await BlogPost.increment("likeCount", { where: { id: postId } });
       liked = true;
     }
     // Fetch the updated post to get the new like count

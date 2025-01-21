@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const { User } = require("../models/index");
+const validateUserData = require("./utils/validateUserData.js");
 
 exports.getUserById = async (id) => {
   try {
@@ -37,6 +38,8 @@ exports.authUser = async (email, password, done) => {
 
 exports.addUser = async (user) => {
   try {
+    validateUserData(user);
+
     const newUser = await User.create({
       firstName: user.firstName,
       lastName: user.lastName,

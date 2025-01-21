@@ -17,7 +17,6 @@ router.get("/home", async (req, res) => {
   });
 });
 
-
 router.get("/stats", async (req, res) => {
   const stats = await blogPostController.getBlogStats();
   res.render("pages/stats", { title: "Post Statistics", ...stats });

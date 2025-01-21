@@ -15,7 +15,10 @@ router.post("/create", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     // Fetch the blog post and check if the user has liked it
-    const post = await blogPostController.getBlogPostById(req.params.id, req.user ? req.user.id : null);
+    const post = await blogPostController.getBlogPostById(
+      req.params.id,
+      req.user ? req.user.id : null,
+    );
     if (post) {
       res.render("pages/blog", { title: post.title, post, user: req.user });
     } else {
@@ -28,7 +31,10 @@ router.get("/:id", async (req, res) => {
 
 router.get("/:id/edit", async (req, res) => {
   try {
-    const post = await blogPostController.getBlogPostById(req.params.id, req.user ? req.user.id : null);
+    const post = await blogPostController.getBlogPostById(
+      req.params.id,
+      req.user ? req.user.id : null,
+    );
     if (post) {
       res.render("pages/editBlog", { title: "Edit Post", post });
     } else {
@@ -68,7 +74,10 @@ router.post("/:id/like", async (req, res) => {
   if (!req.user) {
     return res.json({ success: false, message: "User not logged in" });
   }
-  const { liked, likeCount } = await blogPostController.toggleLike(req.params.id, req.user.id);
+  const { liked, likeCount } = await blogPostController.toggleLike(
+    req.params.id,
+    req.user.id,
+  );
   res.json({ success: true, liked, likeCount });
 });
 
