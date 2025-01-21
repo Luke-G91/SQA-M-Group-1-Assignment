@@ -56,8 +56,30 @@ When("When I create a post", (done) => {
     });
 });
 
+When("I open a blog post", (done) => {
+  request(app)
+    .get("/blog/1")
+    .end((err, res) => {
+      if (err) {
+        return done(err);
+      }
+      this.response = res;
+      done();
+    });
+});
+
 Then("I should see like count", (done) => {
   expect(this.response.text).to.contain("<p>Likes");
+  done();
+});
+
+Then("I should see comment count", (done) => {
+  expect(this.response.text).to.contain("| Comments");
+  done();
+});
+
+Then(" I should see its comment section", (done) => {
+  expect(this.response.text).to.contain("View Comments");
   done();
 });
 
