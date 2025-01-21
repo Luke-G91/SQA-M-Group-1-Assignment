@@ -9,21 +9,21 @@ BlogLike.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'BlogPost',
-        key: 'id'
+        model: "BlogPost",
+        key: "id",
       },
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE'
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
     },
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'User',
-        key: 'id'
+        model: "User",
+        key: "id",
       },
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE'
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
     },
   },
   {
