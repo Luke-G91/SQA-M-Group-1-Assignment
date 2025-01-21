@@ -8,7 +8,7 @@ const sequelize = require("../../config/database.js");
 
 const app = express();
 
-Given("I am a visitor", async function () {
+Given("I am a user", async () => {
   await initTestServer(
     app,
     [{ basePath: "/", router: indexRouter }],
@@ -16,7 +16,7 @@ Given("I am a visitor", async function () {
   );
 });
 
-When("I visit the home page", function (done) {
+When("I visit the home page", (done) => {
   request(app)
     .get("/home")
     .end((err, res) => {
@@ -28,11 +28,11 @@ When("I visit the home page", function (done) {
     });
 });
 
-Then("I should see {string}", function (message, done) {
+Then("I should see {string}", (message, done) => {
   expect(this.response.text).to.contain(message);
   done();
 });
 
-After(async function () {
+After(async () => {
   await sequelize.sync({ force: true });
 });
