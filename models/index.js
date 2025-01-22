@@ -22,6 +22,7 @@ BlogLike.belongsTo(User, { foreignKey: "userId" });
 BlogLike.belongsTo(BlogPost, { foreignKey: "blogId" });
 
 // Comment associations
+// One to many association for BlogPost to BlogComment
 BlogPost.hasMany(BlogComment, {
   foreignKey: 'blogId',
   as: 'comments'
