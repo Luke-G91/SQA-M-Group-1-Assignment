@@ -9,6 +9,11 @@ const {BlogPost, User} = require("../../models/index.js")
 const app = express();
 
 Given("I am a user", async function () {
+  await initTestServer(
+    app,
+    [{ basePath: "/", router: indexRouter }],
+    sequelize,
+  );
   await User.create({
     firstName: "Test",
     lastName: "User",
@@ -36,12 +41,6 @@ Given("I am a user", async function () {
     content: "Testing is easy",
     userId: 2,
   });
-
-  await initTestServer(
-    app,
-    [{ basePath: "/", router: indexRouter }],
-    sequelize,
-  );
 });
 
 When("I visit the home page", (done) => {
@@ -83,8 +82,7 @@ When("I visit the home page and I input blog title in search bar", (done) => {
     });
 });
 
-Then("I should have the searched blog appear", (done) => {
-  console.log(this.response.text); 
+Then("I should have the searched blog appear", (done) => { 
   expect(this.response.text).to.contain("Happiness"); 
   done();
 });
