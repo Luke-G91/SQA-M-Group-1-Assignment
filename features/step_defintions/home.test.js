@@ -4,15 +4,37 @@ const request = require("supertest");
 const expect = require("expect.js");
 const initTestServer = require("../utils/initializeTestServer.js");
 const indexRouter = require("../../routers/indexRouter.js");
+const blogRouter = require("../../routers/blogRouter.js");
 const sequelize = require("../../config/database.js");
-const { BlogPost } = require("../models/index.js");
+const { User, BlogPost } = require("../../models/index.js");
+const mockAuthMiddleware = require("../utils/mockAuthMiddleware.js");
 
 const app = express();
 
 Given("I am a user", async () => {
+
+  const user = await User.create({
+    firstName: "Test",
+    lastName: "User",
+    email: "test@user.com",
+    displayName: "Test user",
+    hashedPassword: "testpass",
+  });
+ 
+  await BlogPost.create({
+    title: "Test blog",
+    content: "Test content",
+    userId: 1,
+  });
+ 
+  app.use(mockAuthMiddleware(user));
+
   await initTestServer(
     app,
-    [{ basePath: "/", router: indexRouter }],
+    [
+      { basePath: "/", router: indexRouter }, 
+      { basePath: "/blog", router: blogRouter }
+    ],
     sequelize,
   );
 });
@@ -40,7 +62,7 @@ After(async () => {
 
 // Tests for Comments & Likes
 
-When("When I create a post", (done) => {
+When("I create a post", (done) => {
   BlogPost.create({
     title: "Test Post",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit ...",
@@ -69,7 +91,7 @@ When("I open a blog post", (done) => {
 });
 
 Then("I should see like count", (done) => {
-  expect(this.response.text).to.contain("<p>Likes");
+  expect(this.response.text).to.contain("p Likes");
   done();
 });
 
@@ -78,7 +100,7 @@ Then("I should see comment count", (done) => {
   done();
 });
 
-Then(" I should see its comment section", (done) => {
+Then("I should see its comment section", (done) => {
   expect(this.response.text).to.contain("View Comments");
   done();
 });
