@@ -19,5 +19,6 @@ Feature: Home Page
 
   Scenario: I open a blog post
     Given I am a user
+    When I create a post 
     When I open a blog post
     Then I should see its comment section
