@@ -155,7 +155,7 @@ exports.toggleLike = async (postId, userId) => {
   }
 };
 
-exports.addComment = async (commentData, user) => {
+exports.addComment = async (commentData) => {
   try {
 
     // Basic validation
@@ -177,7 +177,7 @@ exports.addComment = async (commentData, user) => {
     const newComment = await BlogComment.create({
       comment: trimmedComment,
       blogId: commentData.blogId,
-      userId: user.id
+      userId: commentData.userId
     });
 
 

@@ -86,18 +86,13 @@ router.get("/:id/comment", (req, res) => {
 });
 
 router.post("/:id/comment", async (req, res) => {
-  if (!req.user) {
-    return res.redirect('/login');
-  }
 
   try {
-    // This function is used
-    /* eslint-disable-next-line no-unused-vars */
-    const newComment = await blogPostController.addComment({
+    await blogPostController.addComment({
       comment: req.body.comment,
       blogId: req.params.id,
       userId: req.user.id
-    }, req.user);
+    });
 
     res.redirect(`/blog/${req.params.id}`);
   } catch (error) {
@@ -115,10 +110,9 @@ router.put("/comment/:id", async (req, res) => {
       return res.status(403).json({ success: false, message: "Not authorized to edit this comment" });
     }
     res.json({ success: true, comment });
-  // This function is used
-  /* eslint-disable-next-line no-unused-vars */
+
   } catch (error) {
-    res.status(500).json({ success: false, message: "Error updating comment" });
+    res.status(500).json({ success: false, message: "Error updating comment" , error});
   }
 });
 

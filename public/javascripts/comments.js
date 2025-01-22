@@ -1,4 +1,4 @@
-// Function to handle showing/hiding comments
+// Function to handle showing/hiding comments in views/pages/blog.pug
 // This function is used
 /* eslint-disable-next-line no-unused-vars */
 function toggleComments(post) {
@@ -12,7 +12,7 @@ function toggleComments(post) {
     `Hide Comments (${commentCount})` : 
     `View Comments (${commentCount})`;
 }
-// This function is used
+// This function is used in views/components/comment.pug
 /* eslint-disable-next-line no-unused-vars */
 function editComment(commentId) {
   const textElement = document.getElementById(`comment-text-${commentId}`);
@@ -20,7 +20,7 @@ function editComment(commentId) {
   textElement.style.display = 'none';
   editForm.style.display = 'block';
 }
-// This function is used
+// This function is used in views/components/comment.pug
 /* eslint-disable-next-line no-unused-vars */
 function updateComment(commentId) {
   const input = document.getElementById(`edit-input-${commentId}`);
@@ -50,26 +50,6 @@ function cancelEdit(commentId) {
   const editForm = document.getElementById(`edit-form-${commentId}`);
   textElement.style.display = 'block';
   editForm.style.display = 'none';
-}
-
-// This function is used
-  /* eslint-disable-next-line no-unused-vars */
-function createCommentHTML(comment) {
-  return `
-    <div class="comment" id="comment-${comment.id}">
-      <p class="comment-meta">
-        <span class="comment-author">${comment.user.displayName}</span>
-        <span class="comment-date">(${new Date(comment.createdAt).toLocaleString()})</span>
-        <button class="edit-comment" onclick="editComment(${comment.id})">Edit</button>
-      </p>
-      <p class="comment-text" id="comment-text-${comment.id}">${comment.comment}</p>
-      <div class="edit-form" id="edit-form-${comment.id}" style="display: none;">
-        <textarea id="edit-input-${comment.id}">${comment.comment}</textarea>
-        <button onclick="updateComment(${comment.id})">Save</button>
-        <button onclick="cancelEdit(${comment.id})">Cancel</button>
-      </div>
-    </div>
-  `;
 }
 
 // Character counter for comment input
