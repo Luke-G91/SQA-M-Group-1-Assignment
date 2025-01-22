@@ -30,6 +30,7 @@ BlogComment.belongsTo(BlogPost, {
   foreignKey: 'blogId'
 });
 
+// One to many association for User to BlogComment
 User.hasMany(BlogComment, {
   foreignKey: 'userId'
 });
