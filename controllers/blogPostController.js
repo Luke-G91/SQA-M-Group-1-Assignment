@@ -1,4 +1,4 @@
-const { Op, Sequelize } = require("sequelize")
+const { Op, Sequelize } = require("sequelize");
 const { BlogPost, User, BlogLike, BlogComment } = require("../models/index");
 
 // Fetches blog posts based on a search query. The search is case-insensitive and checks for matches
@@ -80,17 +80,19 @@ exports.getBlogPostById = async (id, userId) => {
         User,
         {
           model: BlogComment,
-          as: 'comments',
-          include: [{
-            model: User,
-            attributes: ['displayName']
-          }],
+          as: "comments",
+          include: [
+            {
+              model: User,
+              attributes: ["displayName"],
+            },
+          ],
           separate: true,
-          order: [['createdAt', 'DESC']]
-        }
-      ]
+          order: [["createdAt", "DESC"]],
+        },
+      ],
     });
-    
+
     if (post && userId) {
       const like = await BlogLike.findOne({ where: { blogId: id, userId } });
       post.dataValues.liked = !!like;
@@ -157,46 +159,46 @@ exports.toggleLike = async (postId, userId) => {
 
 exports.addComment = async (commentData) => {
   try {
-
     // Basic validation
-    if (!commentData || typeof commentData.comment !== 'string') {
-      console.log('Invalid comment data received:', commentData);
-      throw new Error('Comment text is required');
+    if (!commentData || typeof commentData.comment !== "string") {
+      console.log("Invalid comment data received:", commentData);
+      throw new Error("Comment text is required");
     }
 
     const trimmedComment = commentData.comment.trim();
     if (!trimmedComment) {
-      throw new Error('Comment cannot be empty');
+      throw new Error("Comment cannot be empty");
     }
 
     if (trimmedComment.length > 500) {
-      throw new Error('Comment cannot exceed 500 characters');
+      throw new Error("Comment cannot exceed 500 characters");
     }
 
     // Create the comment
     const newComment = await BlogComment.create({
       comment: trimmedComment,
       blogId: commentData.blogId,
-      userId: commentData.userId
+      userId: commentData.userId,
     });
 
-
     // Update comment count
-    await BlogPost.increment('commentCount', {
-      where: { id: commentData.blogId }
+    await BlogPost.increment("commentCount", {
+      where: { id: commentData.blogId },
     });
 
     // Return with user info
     const commentWithUser = await BlogComment.findByPk(newComment.id, {
-      include: [{
-        model: User,
-        attributes: ['displayName']
-      }]
+      include: [
+        {
+          model: User,
+          attributes: ["displayName"],
+        },
+      ],
     });
 
     return commentWithUser;
   } catch (error) {
-    console.error('Error in addComment:', error);
+    console.error("Error in addComment:", error);
     throw error;
   }
 };
@@ -204,18 +206,18 @@ exports.addComment = async (commentData) => {
 exports.updateComment = async (commentId, userId, updatedComment) => {
   try {
     if (!updatedComment) {
-      throw new Error('Comment cannot be empty');
+      throw new Error("Comment cannot be empty");
     }
 
     const existingComment = await BlogComment.findByPk(commentId);
     if (!existingComment || existingComment.userId !== userId) {
-      return null;
+      throw new Error("Cannot update comment with id:", commentId);
     }
 
-    await existingComment.update({ updatedComment });
+    await existingComment.update({ comment: updatedComment });
     return existingComment;
   } catch (error) {
-    console.error('Error updating comment:', error);
+    console.error("Error updating comment:", error);
     throw error;
   }
 };
