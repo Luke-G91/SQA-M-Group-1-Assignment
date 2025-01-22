@@ -8,7 +8,7 @@ const sequelize = require("../../config/database.js");
 const {BlogPost, User} = require("../../models/index.js")
 const app = express();
 
-Given("I am a visitor", async function () {
+Given("I am a user", async function () {
   await User.create({
     firstName: "Test",
     lastName: "User",
@@ -44,7 +44,7 @@ Given("I am a visitor", async function () {
   );
 });
 
-When("I visit the home page", function (done) {
+When("I visit the home page", (done) => {
   request(app)
     .get("/home")
     .end((err, res) => {
@@ -56,22 +56,22 @@ When("I visit the home page", function (done) {
     });
 });
 
-Then("I should see {string}", function (message, done) {
+Then("I should see {string}", (message, done) => {
   expect(this.response.text).to.contain(message);
   done();
 });
 
-Then("I should see the search bar", function (done) {
+Then("I should see the search bar", (done) => {
   expect(this.response.text).to.contain("Search for inspiration...");
   done();
 });
 
-Then("I should see the Search and Clear buttons", function (done) {
+Then("I should see the Search and Clear buttons", (done) => {
   expect(this.response.text).to.contain("Search").and.to.contain("Clear");
   done();
 });
 
-When("I visit the home page and I input blog title in search bar", function (done) {
+When("I visit the home page and I input blog title in search bar", (done) => {
   request(app)
     .get("/home?query=happiness") // Search for the title "Happiness"
     .end((err, res) => {
@@ -83,7 +83,7 @@ When("I visit the home page and I input blog title in search bar", function (don
     });
 });
 
-Then("I should have the searched blog appear", function (done) {
+Then("I should have the searched blog appear", (done) => {
   console.log(this.response.text); 
   expect(this.response.text).to.contain("Happiness"); 
   done();
@@ -91,7 +91,7 @@ Then("I should have the searched blog appear", function (done) {
 
 
 
-When("I visit the home page and I input author name of a blog in search bar", function (done) {
+When("I visit the home page and I input author name of a blog in search bar", (done) => {
   request(app)
     .get("/home?query=zoe") 
     .end((err, res) => {
@@ -103,14 +103,14 @@ When("I visit the home page and I input author name of a blog in search bar", fu
     });
 });
 
-Then("I should have the related blogs to the author appear", function (done) {
+Then("I should have the related blogs to the author appear", (done) => {
   expect(this.response.text).to.contain("Zoe").and.to.not.contain("Isma");
   done();
 });
 
 
 
-After(async function () {
+After(async () => {
   await sequelize.sync({ force: true });
 });
 

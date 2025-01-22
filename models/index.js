@@ -4,27 +4,40 @@ const BlogComment = require("./BlogComment");
 const User = require("./User");
 
 // Define associations
-User.hasMany(BlogPost, { foreignKey: 'userId' });
-BlogPost.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(BlogPost, { foreignKey: "userId" });
+BlogPost.belongsTo(User, { foreignKey: "userId" });
 
-User.belongsToMany(BlogPost, { through: BlogLike, foreignKey: 'userId', otherKey: 'blogId' });
-BlogPost.belongsToMany(User, { through: BlogLike, foreignKey: 'blogId', otherKey: 'userId' });
+User.belongsToMany(BlogPost, {
+  through: BlogLike,
+  foreignKey: "userId",
+  otherKey: "blogId",
+});
+BlogPost.belongsToMany(User, {
+  through: BlogLike,
+  foreignKey: "blogId",
+  otherKey: "userId",
+});
 
-BlogLike.belongsTo(User, { foreignKey: 'userId' });
-BlogLike.belongsTo(BlogPost, { foreignKey: 'blogId' });
+BlogLike.belongsTo(User, { foreignKey: "userId" });
+BlogLike.belongsTo(BlogPost, { foreignKey: "blogId" });
 
-// Comment Associations
+// Comment associations
 // One to many association for BlogPost to BlogComment
 BlogPost.hasMany(BlogComment, {
-  foreignKey: "blogId",
+  foreignKey: 'blogId',
+  as: 'comments'
 });
-BlogComment.belongsTo(BlogPost);
+BlogComment.belongsTo(BlogPost, {
+  foreignKey: 'blogId'
+});
 
 // One to many association for User to BlogComment
 User.hasMany(BlogComment, {
-  foreignKey: "userId",
+  foreignKey: 'userId'
 });
-BlogComment.belongsTo(User);
+BlogComment.belongsTo(User, {
+  foreignKey: 'userId'
+});
 
 module.exports = {
   User,
