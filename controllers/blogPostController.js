@@ -212,7 +212,7 @@ exports.updateComment = async (commentId, userId, updatedComment) => {
       return null;
     }
 
-    await existingComment.update({ comment });
+    await existingComment.update({ updatedComment });
     return existingComment;
   } catch (error) {
     console.error('Error updating comment:', error);
