@@ -201,9 +201,9 @@ exports.addComment = async (commentData) => {
   }
 };
 
-exports.updateComment = async (commentId, userId, comment) => {
+exports.updateComment = async (commentId, userId, updatedComment) => {
   try {
-    if (!comment) {
+    if (!updatedComment) {
       throw new Error('Comment cannot be empty');
     }
 
