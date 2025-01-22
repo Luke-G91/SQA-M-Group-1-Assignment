@@ -11,7 +11,16 @@ const {BlogPost, User} = require("../../models/index.js")
 const app = express();
 
 Given("I am a user", async function () {
-  app.use(mockAuthMiddleware(user));
+  
+  const mockUser = {
+    firstName: "Test",
+    lastName: "User",
+    email: "test@user.com",
+    displayName: "Isma",
+    hashedPassword: "testpass",
+  }
+
+  app.use(mockAuthMiddleware(mockUser));
   await initTestServer(
     app,
     [
@@ -20,13 +29,7 @@ Given("I am a user", async function () {
     ],
     sequelize,
   );
-  await User.create({
-    firstName: "Test",
-    lastName: "User",
-    email: "test@user.com",
-    displayName: "Isma",
-    hashedPassword: "testpass",
-  });
+  await User.create(mockUser);
  
   await User.create({
     firstName: "Test",
