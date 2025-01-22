@@ -32,6 +32,59 @@ describe("Blog controller", () => {
 
     expect(createdBlog.title).toBe(blogToCreate.title);
   });
+
+  it("toggles like on a blog post", async () => {
+    const blog = await blogController.createBlogPost({
+      title: "Like Test Post",
+      content: "Test Content"
+    }, { id: 1 });
+
+    const result = await blogController.toggleLike(blog.id, 1);
+    expect(result.liked).toBe(true);
+    expect(result.likeCount).toBe(1);
+
+    const unlikeResult = await blogController.toggleLike(blog.id, 1);
+    expect(unlikeResult.liked).toBe(false);
+    expect(unlikeResult.likeCount).toBe(0);
+  });
+
+  it("adds a comment to a blog post", async () => {
+    const blog = await blogController.createBlogPost({
+      title: "Comment Test Post",
+      content: "Test Content"
+    }, { id: 1 });
+
+    const comment = await blogController.addComment({
+      comment: "Test comment",
+      blogId: blog.id,
+      userId: 1
+    });
+
+    expect(comment.comment).toBe("Test comment");
+    expect(comment.blogId).toBe(blog.id);
+    expect(comment.userId).toBe(1);
+  });
+
+  it("updates a comment", async () => {
+    const blog = await blogController.createBlogPost({
+      title: "Update Comment Test",
+      content: "Test Content"
+    }, { id: 1 });
+
+    const comment = await blogController.addComment({
+      comment: "Original comment",
+      blogId: blog.id,
+      userId: 1
+    });
+
+    const updatedComment = await blogController.updateComment(
+      comment.id,
+      1,
+      "Updated comment"
+    );
+
+    expect(updatedComment.comment).toBe("Updated comment");
+  });
 });
 
 afterAll(async () => {
