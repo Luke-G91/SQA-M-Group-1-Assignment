@@ -8,7 +8,7 @@ async function intializeTestServer(app, routes, sequelize) {
   setupMiddleware(app);
   setupRoutes(app, routes);
 
-  await syncDatabase(sequelize, true);
+  await syncDatabase(sequelize, false);
 }
 
 module.exports = intializeTestServer;
