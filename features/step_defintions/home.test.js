@@ -18,7 +18,7 @@ Given("I am a user", async () => {
     lastName: "User",
     email: "test@user.com",
     displayName: "Test user",
-    hashedPassword: "testpass",
+    hashedPassword: "testpass#1234",
   });
  
   await BlogPost.create({
@@ -79,6 +79,7 @@ When("I create a post", (done) => {
 });
 
 When("I open a blog post", (done) => {
+
   request(app)
     .get("/blog/1")
     .end((err, res) => {
