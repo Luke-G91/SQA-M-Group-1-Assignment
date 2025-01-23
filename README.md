@@ -121,10 +121,17 @@
 
 ## Challenges and Solutions
 
-| Challenge                 | Risk                                                                                                                        | Solution                                                                                                                     |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| Implementing secure login | User details including passwords are accessible that and anyone can access anyone else's account                            | Used bcrypt for password hashing and CSRF protection.                                                                        |
-| SQL injection             | Database queries such as blog post search could allow SQL queries to be added to the search to leak or modify database data | Sequlize uses paramteised queries which safely escape and inject parameters to prevent malicious alteration of the SQL query |
+| Challenge | Risk | Solution |
+| --------- | ---- | -------- |
+| Implementing secure login | User details including passwords are accessible that and anyone can access anyone else's account | Used bcrypt for password hashing and CSRF protection |
+| SQL injection | Database queries such as blog post search could allow SQL queries to be added to the search to leak or modify database data | Sequelize uses parameterized queries which safely escape and inject parameters to prevent malicious alteration of the SQL query |
+| Merge conflicts | Multiple team members working on the same files could lead to code loss or incorrect merges | Implemented clear branch naming conventions and required PR reviews. Used feature branches to isolate work. Communicated actively about which files team members were working on |
+| Environment inconsistencies | Code working locally but failing in different environments (Windows vs Linux, different Node versions) | Created Docker setup to ensure consistent development environment. Added detailed environment setup documentation. Specified exact dependency versions in package.json |
+| Time management with work commitments | Difficulty coordinating team activities due to different work schedules and commitments | Set up async communication channels. Scheduled regular but flexible check-ins |
+| Database schema changes | Changes to database models could break existing functionality | Created an ERD and implemented the required database schema early to prevent issues later |
+| Testing environment setup | Different testing approaches (unit, integration, BDD) required different configurations | Created separate test configuration files. Added npm scripts for different test types. Documented test setup process |
+| Code style consistency | Different IDE settings and personal preferences leading to inconsistent code | Implemented ESLint and Prettier. |
+| Knowledge sharing | Team members having different levels of expertise in different areas | Created documentation for key implementations. Added comments for complex logic. Conducted code review sessions |
 
 ## Evidence for Marking Criteria
 
