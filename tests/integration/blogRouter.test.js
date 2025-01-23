@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const initTestServer = require("../../features/utils/initializeTestServer.js");
 const blogRouter = require("../../routers/blogRouter.js");
 const sequelize = require("../../config/database.js");
-const { User, BlogPost, BlogComment, BlogLike } = require("../../models");
+const { User, BlogPost, BlogComment } = require("../../models");
 
 const app = express();
 
