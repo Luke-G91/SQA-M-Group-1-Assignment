@@ -42,10 +42,6 @@ beforeAll(async () => {
   });
 });
 
-afterAll(async () => {
-  await sequelize.close();
-});
-
 describe("Blog Router", () => {
   jest.setTimeout(10000);
 
