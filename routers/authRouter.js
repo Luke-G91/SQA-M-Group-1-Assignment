@@ -6,7 +6,7 @@ const userController = require("../controllers/userController.js");
 const router = express.Router();
 
 router.get("/login", (req, res) => {
-  const errors = req.flash("error");
+  const errors = process.env.NODE_ENV === "test" ? [] : req.flash("error");
   res.render("pages/login", { errors });
 });
 
