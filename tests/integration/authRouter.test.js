@@ -30,7 +30,6 @@ describe("Auth Router", () => {
   describe("GET /logout", () => {
     it("Should log the user out and redirect to /", async () => {
       const response = await request(app).get("/logout");
-      console.log(response);
       expect(response.status).toBe(302);
       expect(response.headers.location).toBe("/");
     });

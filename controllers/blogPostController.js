@@ -214,7 +214,8 @@ exports.updateComment = async (commentId, userId, updatedComment) => {
       throw new Error("Cannot update comment with id:", commentId);
     }
 
-    await existingComment.update({ comment: updatedComment });
+    existingComment.comment = updatedComment;
+    await existingComment.save();
     return existingComment;
   } catch (error) {
     console.error("Error updating comment:", error);

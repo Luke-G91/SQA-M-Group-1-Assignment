@@ -4,23 +4,32 @@ const request = require("supertest");
 const expect = require("expect.js");
 const initTestServer = require("../utils/initializeTestServer.js");
 const indexRouter = require("../../routers/indexRouter.js");
+const blogRouter = require("../../routers/blogRouter.js");
 const sequelize = require("../../config/database.js");
+const mockAuthMiddleware = require("../utils/mockAuthMiddleware.js");
 const {BlogPost, User} = require("../../models/index.js")
 const app = express();
 
 Given("I am a user", async function () {
-  await initTestServer(
-    app,
-    [{ basePath: "/", router: indexRouter }],
-    sequelize,
-  );
-  await User.create({
+  
+  const mockUser = {
     firstName: "Test",
     lastName: "User",
     email: "test@user.com",
     displayName: "Isma",
     hashedPassword: "testpass",
-  });
+  }
+
+  app.use(mockAuthMiddleware(mockUser));
+  await initTestServer(
+    app,
+    [
+      { basePath: "/", router: indexRouter }, 
+      { basePath: "/blog", router: blogRouter }
+    ],
+    sequelize,
+  );
+  await User.create(mockUser);
  
   await User.create({
     firstName: "Test",
@@ -112,3 +121,52 @@ After(async () => {
   await sequelize.sync({ force: true });
 });
 
+// Tests for Comments & Likes
+
+When("I create a post", (done) => {
+  BlogPost.create({
+    title: "Test Post",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit ...",
+  });
+  request(app)
+    .get("/home")
+    .end((err, res) => {
+      if (err) {
+        return done(err);
+      }
+      this.response = res;
+      done();
+    });
+});
+
+When("I open a blog post", (done) => {
+
+  request(app)
+    .get("/blog/1")
+    .end((err, res) => {
+      if (err) {
+        return done(err);
+      }
+      this.response = res;
+      done();
+    });
+});
+
+Then("I should see like count", (done) => {
+  expect(this.response.text).to.contain("p Likes");
+  done();
+});
+
+Then("I should see comment count", (done) => {
+  expect(this.response.text).to.contain("| Comments");
+  done();
+});
+
+Then("I should see its comment section", (done) => {
+  expect(this.response.text).to.contain("View Comments");
+  done();
+});
+
+After(async () => {
+  await sequelize.sync({ force: true });
+});
