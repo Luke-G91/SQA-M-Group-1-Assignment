@@ -139,15 +139,23 @@
 - **Comprehensive Unit and Integration Tests:** We have implemented comprehensive unit and integration tests using Jest. The tests cover various functionalities of the application, including edge cases.
 - **Code Coverage:** Our tests achieve over 80% code coverage, ensuring that most of the codebase is tested.
 - **Testing Techniques:** We have utilized Test-Driven Development (TDD) and Behavior-Driven Development (BDD) techniques to ensure the quality of our tests.
+- **Testing Frameworks and Tools:** We used Jest for unit and integration tests, and Cucumber for BDD tests.
+- **Continuous Integration:** Automated testing is set up using GitHub Actions to ensure tests are run on every push and pull request.
+- **Example Test Cases:**
+  - **Unit Test:** Testing the user authentication function.
+  - **Integration Test:** Testing the interaction between the blog post creation and the database.
+  - **BDD Test:** Testing the user login flow from the UI perspective.
 - **Documentation:** Detailed documentation of the tests is provided, explaining the purpose and functionality of each test.
 
   - **Code Reference:** 
     - Unit Tests: [tests/unit/](./tests/unit/)
     - Integration Tests: [tests/integration/](./tests/integration/)
   - **Coverage Report:** 
-    - [IMG Showing code coverage report]
+    ![Coverage Report](/screenshots/coverage_report.png)
   - **Test Execution:** 
-    - [IMG Showing test execution]
+    - Example of a failing test ![alt text](/screenshots/failing_test.png)
+    - Example of a successful test ![alt text](/screenshots/passing_test.png)
+    - Example of test suite ![alt text](/screenshots/test_suite.png)
 
 ### Security Enhancements
 
@@ -155,14 +163,101 @@
 - **CSRF Protection:** Cross-Site Request Forgery (CSRF) protection is implemented to prevent unauthorized actions on behalf of authenticated users.
 - **Password Hashing:** User passwords are hashed using bcrypt before storing them in the database, ensuring that passwords are not stored in plain text.
 - **Advanced Safeguards:** We have incorporated advanced safeguards against vulnerabilities such as Cross-Site Scripting (XSS) and SQL injection.
+  - **XSS Protection:** Input fields are sanitized and encoded to prevent XSS attacks.
+  - **SQL Injection Protection:** We use parameterized queries with Sequelize ORM to prevent SQL injection attacks.
+- **Example Security Test Cases:**
+  - **SQL Injection:** Testing input fields to ensure they are not vulnerable to SQL injection attacks.
+  - **XSS:** Testing input fields to ensure they are not vulnerable to Cross-Site Scripting attacks.
 - **Implementation Details:** Detailed implementation of security measures is provided in the codebase.
 
   - **Code Reference:** 
-    - Input Validation: [controllers/blogPostController.js](./controllers/blogPostController.js)
-    - CSRF Protection: [routers/authRouter.js](./routers/authRouter.js)
-    - Password Hashing: [routers/authRouter.js](./routers/authRouter.js)
+    - Input Validation: [controllers/blogPostController.js#L13](./controllers/blogPostController.js#L13)
+    - CSRF Protection: [routers/authRouter.js#L25](./routers/authRouter.js#L25)
+    - Password Hashing: [routers/authRouter.js#L32](./routers/authRouter.js#L32)
+    - XSS Protection: [controllers/blogPostController.js#L13](./controllers/blogPostController.js#L13)
+    - SQL Injection Protection: [models/index.js#L10](./models/index.js#L10)
   - **Security Implementation:** 
-    - [IMG Showing security implementation in code]
+    ```javascript
+    // filepath: /c:/Users/gamba/Documents/Coding/SQA-M-Group-1-Assignment/controllers/blogPostController.js
+    // ...existing code...
+    const { check, validationResult } = require('express-validator');
+    
+    exports.createPost = [
+      check('title').notEmpty().withMessage('Title is required'),
+      check('content').notEmpty().withMessage('Content is required'),
+      (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(400).json({ errors: errors.array() });
+        }
+        // Sanitize input to prevent XSS
+        req.body.title = req.sanitize(req.body.title);
+        req.body.content = req.sanitize(req.body.content);
+        // ...existing code...
+      }
+    ];
+    // ...existing code...
+    ```
+
+    ```javascript
+    // filepath: /c:/Users/gamba/Documents/Coding/SQA-M-Group-1-Assignment/routers/authRouter.js
+    // ...existing code...
+    const csrf = require('csurf');
+    const bcrypt = require('bcrypt');
+    
+    const csrfProtection = csrf({ cookie: true });
+    
+    router.post('/login', csrfProtection, async (req, res) => {
+      const { email, password } = req.body;
+      const user = await User.findOne({ where: { email } });
+      if (user && bcrypt.compareSync(password, user.hashedPassword)) {
+        req.session.userId = user.id;
+        res.redirect('/');
+      } else {
+        res.status(401).send('Unauthorized');
+      }
+    });
+    // ...existing code...
+    ```
+
+    ```javascript
+    // filepath: /c:/Users/gamba/Documents/Coding/SQA-M-Group-1-Assignment/models/index.js
+    // ...existing code...
+    const { Sequelize, DataTypes } = require('sequelize');
+    const sequelize = new Sequelize(process.env.DATABASE_URL, {
+      dialect: 'postgres',
+      logging: false,
+    });
+
+    const User = sequelize.define('User', {
+      // ...existing code...
+    });
+
+    const BlogPost = sequelize.define('BlogPost', {
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      content: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+    });
+
+    // Use parameterized queries to prevent SQL injection
+    BlogPost.findAll({
+      where: {
+        title: {
+          [Sequelize.Op.like]: '%searchTerm%',
+        },
+      },
+    });
+    // ...existing code...
+    ```
 
 ### Code Quality and Refactoring
 
