@@ -178,7 +178,7 @@
     - SQL Injection Protection: [models/index.js#L10](./models/index.js#L10)
   - **Security Implementation:** 
     ```javascript
-    // filepath: /c:/Users/gamba/Documents/Coding/SQA-M-Group-1-Assignment/controllers/blogPostController.js
+    // filepath: features/step_defintions/home.test.js
     // ...existing code...
     const { check, validationResult } = require('express-validator');
     
@@ -200,7 +200,7 @@
     ```
 
     ```javascript
-    // filepath: /c:/Users/gamba/Documents/Coding/SQA-M-Group-1-Assignment/routers/authRouter.js
+    // filepath: routers/authRouter.js
     // ...existing code...
     const csrf = require('csurf');
     const bcrypt = require('bcrypt');
@@ -221,7 +221,7 @@
     ```
 
     ```javascript
-    // filepath: /c:/Users/gamba/Documents/Coding/SQA-M-Group-1-Assignment/models/index.js
+    // filepath: models/index.js
     // ...existing code...
     const { Sequelize, DataTypes } = require('sequelize');
     const sequelize = new Sequelize(process.env.DATABASE_URL, {
