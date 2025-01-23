@@ -146,13 +146,33 @@
 
 ### Code Quality and Refactoring
 
-- **Modularization:** Improved code structure for better maintainability.
-- **Code Standards:** Followed industry-standard coding practices.
+- **File Structure Update:** The project file structure was reorganized to facilitate modularization, improving maintainability and readability. [Modularized app functions](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/8/commits/099f51754eb220d1faf9914e0c692df9d2541108)
+- **Environment Configuration:** Introduced a `.env` file to securely store configuration secrets such as the database URL and server port. [Database url from env](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/1)
+- **Function Reusability:** Consolidated repeated code into separate, reusable functions.
+- **Template Extensibility:** Organized Pug files and used `extends` for better template extensibility. [Pug file improvements](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/3/commits/53a2e8096c0240ab265d44bb1851a6ba0bfc358f)
+- **Password Security:** Utilized `bcrypt` for secure password hashing. [Bcrypt alongside user auth](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/9/commits/b00384942f5c5327ccf75caa7543feae7c7fa959)
+- **CSS Management:** Separated CSS into multiple files to enhance maintainability.
+- **Error Handling:** Improved error handling for database interactions and synchronization.
+- **Router Organization:** Split routers into distinct sections using different base paths for cleaner and more organized code. [Seperated routers](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/3/commits/84733bee3b2ac699d5e95b3eaf5bbf633f1789e8)
+- **Docker Setup:** Created Docker and Docker Compose files for easy and consistent setup across different environments. [Docker Setup Example](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/11)
+- **Router-Controller Separation:** Separated routers from controllers to maintain clear separation of concerns.
+- **Environment-Specific Configurations:** Used different environments for local, testing, and production, allowing SQLite for local and PostgreSQL for production. [Test env added](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/3/commits/b179cb9dfe8134d7862fc721b770ae5e88014d3d)
+- **Testing Scripts:** Added scripts in `package.json` to streamline running and testing processes.
+- **Mocking in Tests:** Implemented mocks in unit tests to ensure consistent behavior and independence of functions.
+- **Code Improvements Evidence:** [Code Formatting Example](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/19), [Refactor Example](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/3)
 
 ### CI/CD and Git Practices
 
-- **CI/CD Workflows:** Set up GitHub Actions for automated testing and linting.
-- **Collaboration Evidence:** [Screenshots or logs from GitHub Actions]
+- **CI/CD Setup:** Implemented GitHub Actions to automate testing for unit, integration, and BDD tests on a standardized environment using Node.js on Ubuntu. [List of Actions](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/actions)
+- **Linting and Formatting:** Integrated ESLint for code linting and Prettier for consistent code formatting.
+- **Database Model Management:** Organized database models in individual files and managed associations from a unified file. [Database models](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/6)
+- **Naming Conventions:** Ensured function and variable names are readable and descriptive.
+- **Branching Strategy:** Utilized a development branch workflow with releases to the main branch.
+- **Branch Naming Conventions:** Followed industry standard git branching patterns such as `feat`, `doc`, `test`, `ci` for branch organization. [Test Naming Convention PR](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/242), [Doc Naming Convention PR](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/12), [CI Naming Convention PR](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/15)
+- **Branch Protection Rules:** Established rules to enforce consistency, requiring PRs to be squashed into a single commit with standardized messages like `Feat: change here`.
+- **Pull Request Reviews:** Required at least one review approval for PRs, with stale reviews upon further commits to ensure code quality. [Changes Requested Example with Comments](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/21)
+- **Merge Blockage on Request Changes:** Prevented merges until requested changes were addressed and approved.
+- **GitHub Actions Enforcement:** Required passing GitHub Actions tests and lint checks before merging. [Successful Action Log](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/actions/runs/12927683564), [Failing Lint Action Log](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/actions/runs/12929744677)
 
 ## Feature Implementation Evidence
 
