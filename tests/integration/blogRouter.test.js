@@ -20,7 +20,6 @@ const mockAuthMiddleware = (req, res, next) => {
 };
 
 beforeAll(async () => {
-  sequelize.sync({ force: true });
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(mockAuthMiddleware);
