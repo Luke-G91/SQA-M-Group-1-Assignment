@@ -188,11 +188,66 @@
 
 ## Code Quality and Refactoring Evidence
 
-- **Code Improvements:** [Description and code references]
+### Code Structure Improvements
+![Code Structure Before Refactor](./screenshots/app-before.png)
+*Figure 1: App.js before refactor and modularization*
+
+![Code Structure Before and After](./screenshots/app-after.png)
+*Figure 2: App.js before refactor and modularization*
+
+### Database Model Organization
+![User Model User.js](./screenshots/user-model.png)
+*Figure 3: Screenshot User individual model*
+
+![Blog Post Model BlogPost.js](./screenshots/blog-post-model.png)
+*Figure 4: Screenshot BlogPost individual model*
+
+![Separate models](./screenshots/db-models.png)
+*Figure 5: Screenshot showing the organized database models structure*
+
+### Environment Configuration
+```env
+# Example of our .env structure
+PORT=3000
+SESSION_SECRET=****
+DATABASE_URL=****
+```
+*Figure 6: Example of environment configuration (with sensitive data redacted)*
+
+### Router Separation
+![Router Organization](./screenshots/router-structure.png)
+*Figure 7: Screenshot showing the separation of routes into distinct modules*
 
 ## CI/CD and Git Practices Evidence
 
-- **Workflow Evidence:** [Screenshots or logs]
+### Branch Protection Rules
+![Branch Protection Settings](./screenshots/protection-rules.png)
+*Figure 8: Screenshot of GitHub branch protection rules configuration*
+
+### Pull Request Review Process
+![PR Review Example](./screenshots/resolved-comments.png)
+*Figure 9: Example of a pull request with review comments that have been resolved*
+
+![PR Review Example Comments](./screenshots/pr-comments.png)
+*Figure 10: Example of pull request comments*
+
+### GitHub Actions Workflow
+![GitHub Actions Dashboard Fail](./screenshots/action-fail.png)
+*Figure 11: Screenshot of GitHub Actions showing failing test runs*
+
+![GitHub Actions Dashboard Success](./screenshots/action-success.png)
+*Figure 12: Screenshot of GitHub Actions showing successful test runs*
+
+### Code Quality Checks
+![ESLint Results Fail](./screenshots/lint-fail.png)
+*Figure 13: Example of ESLint code quality check with failed results*
+
+![ESLint Results Success](./screenshots/lint-success.png)
+*Figure 14: Example of ESLint code quality check successful results*
+
+### Branching Strategy
+![Git Graph](./screenshots/git-graph.png)
+*Figure 15: Git graph showing our branching strategy in action*
 
 ## Conclusion
 
