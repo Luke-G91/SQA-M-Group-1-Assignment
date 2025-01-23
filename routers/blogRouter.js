@@ -1,10 +1,11 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const blogPostController = require("../controllers/blogPostController.js");
 
 const router = express.Router();
 
-router.use(express.json());
-router.use(express.urlencoded({ extended: true }));
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: true }));
 
 router.get("/create", (req, res) => {
   res.render("pages/createBlog", { title: "Create Post" });
@@ -112,7 +113,7 @@ router.post("/:id/comment", async (req, res) => {
 
     res.redirect(`/blog/${req.params.id}`);
   } catch (error) {
-    res.status(400).render("error", { error: error.message });
+    res.status(400).json({ error: error.message });
   }
 });
 

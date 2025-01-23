@@ -93,7 +93,11 @@ exports.getBlogPostById = async (id, userId) => {
       ],
     });
 
-    if (post && userId) {
+    if (!post) {
+      return null;
+    }
+
+    if (userId) {
       const like = await BlogLike.findOne({ where: { blogId: id, userId } });
       post.dataValues.liked = !!like;
     } else {
@@ -211,7 +215,7 @@ exports.updateComment = async (commentId, userId, updatedComment) => {
 
     const existingComment = await BlogComment.findByPk(commentId);
     if (!existingComment || existingComment.userId !== userId) {
-      throw new Error("Cannot update comment with id:", commentId);
+      throw new Error(`Cannot update comment with id: ${commentId}`);
     }
 
     existingComment.comment = updatedComment;

@@ -1,6 +1,7 @@
 const express = require("express");
 const sequelize = require("./config/database.js");
 const passport = require("passport");
+const bodyParser = require("body-parser");
 
 const setupViewEngine = require("./setup/setupViewEngine.js");
 const setupMiddleware = require("./setup/setupMiddleware.js");
@@ -21,6 +22,10 @@ async function initializeServer(app, port, passport, session, routers) {
   setupAuth(app, session, passport);
   setupFlash(app);
   setupRoutes(app, routers);
+
+  // Use body-parser middleware
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
 
   await syncDatabase(sequelize);
 
