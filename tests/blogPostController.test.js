@@ -2,7 +2,7 @@ const initTestServer = require("./utils/intializeUnitTestServer.js");
 const blogController = require("../controllers/blogPostController.js");
 const express = require("express");
 const sequelize = require("../config/database.js");
-const { BlogPost, User } = require("../models/index");
+const { BlogPost, User, BlogLike, BlogComment } = require("../models/index");
 const Sequelize = require("sequelize");
 const { Op } = Sequelize;
 
@@ -147,6 +147,96 @@ describe("Blog controller", () => {
       await expect(blogController.getAllBlogPosts()).rejects.toThrow(
         "Database error"
       );
+    });
+  });
+
+  describe("toggleLike", () => {
+    it("should like a post if not already liked", async () => {
+      const mockPost = { id: 1, likeCount: 0 };
+      BlogPost.findByPk.mockImplementation(() => Promise.resolve(mockPost));
+      BlogLike.findOne.mockResolvedValue(null);
+      BlogLike.create.mockResolvedValue({});
+      BlogPost.increment.mockImplementation((field, options) => {
+        if (field === "likeCount" && options.where.id === 1) {
+          mockPost.likeCount += 1;
+        }
+        return Promise.resolve();
+      });
+
+      const result = await blogController.toggleLike(1, 1);
+
+      expect(result).toEqual({ liked: true, likeCount: 1 });
+      expect(BlogLike.create).toHaveBeenCalledWith({ blogId: 1, userId: 1 });
+      expect(BlogPost.increment).toHaveBeenCalledWith("likeCount", { where: { id: 1 } });
+    });
+
+    it("should unlike a post if already liked", async () => {
+      const mockPost = { id: 1, likeCount: 1 };
+      const mockLike = { destroy: jest.fn() };
+      BlogPost.findByPk.mockImplementation(() => Promise.resolve(mockPost));
+      BlogLike.findOne.mockResolvedValue(mockLike);
+      BlogPost.decrement.mockImplementation((field, options) => {
+        if (field === "likeCount" && options.where.id === 1) {
+          mockPost.likeCount -= 1;
+        }
+        return Promise.resolve();
+      });
+
+      jest.spyOn(mockLike, 'destroy');
+
+      const result = await blogController.toggleLike(1, 1);
+
+      expect(result).toEqual({ liked: false, likeCount: 0 });
+      expect(mockLike.destroy).toHaveBeenCalled();
+      expect(BlogPost.decrement).toHaveBeenCalledWith("likeCount", { where: { id: 1 } });
+    });
+
+    it("should throw an error if toggling like fails", async () => {
+      const error = new Error("Database error");
+      BlogLike.findOne.mockRejectedValue(error);
+
+      await expect(blogController.toggleLike(1, 1)).rejects.toThrow("Database error");
+    });
+  });
+
+  describe("addComment", () => {
+    it("should add a comment to a post", async () => {
+      const mockComment = { id: 1, comment: "Nice post!", blogId: 1, userId: 1, User: { displayName: "TestUser" } };
+      BlogComment.create.mockResolvedValue(mockComment);
+      BlogPost.increment.mockResolvedValue();
+      BlogComment.findByPk.mockResolvedValue(mockComment);
+
+      const result = await blogController.addComment({ comment: "Nice post!", blogId: 1, userId: 1 });
+
+      expect(result).toEqual(mockComment);
+      expect(BlogComment.create).toHaveBeenCalledWith({ comment: "Nice post!", blogId: 1, userId: 1 });
+      expect(BlogPost.increment).toHaveBeenCalledWith("commentCount", { where: { id: 1 } });
+    });
+
+    it("should throw an error if adding a comment fails", async () => {
+      const error = new Error("Database error");
+      BlogComment.create.mockRejectedValue(error);
+
+      await expect(blogController.addComment({ comment: "Nice post!", blogId: 1, userId: 1 })).rejects.toThrow("Database error");
+    });
+  });
+
+  describe("updateComment", () => {
+    it("should update a comment", async () => {
+      const mockComment = { id: 1, comment: "Updated comment", userId: 1, save: jest.fn() };
+      BlogComment.findByPk.mockResolvedValue(mockComment);
+
+      const result = await blogController.updateComment(1, 1, "Updated comment");
+
+      expect(result).toEqual(mockComment);
+      expect(mockComment.save).toHaveBeenCalled();
+    });
+
+    it("should throw an error if updating a comment fails", async () => {
+      const error = new Error("Database error");
+      BlogComment.findByPk.mockRejectedValue(error);
+
+      await expect(blogController.updateComment(1, 1, "Updated comment")).rejects.toThrow("Database error");
     });
   });
 });
