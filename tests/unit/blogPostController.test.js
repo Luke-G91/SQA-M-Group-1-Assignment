@@ -302,6 +302,109 @@ describe("Blog controller", () => {
       expect(createdBlog.userId).toBe(user.id);
     });
   });
+
+  describe("getBlogStats", () => {
+    it("should return correct blog statistics", async () => {
+      const mockBlogs = [
+        { title: "Blog Post 1", content: "Content for blog post 1" },
+        { title: "Blog Post 2", content: "Content for blog post 2" },
+        { title: "Blog Post 3", content: "Content for blog post 3" },
+      ];
+      BlogPost.findAll.mockResolvedValue(mockBlogs);
+
+      const stats = await blogController.getBlogStats();
+
+      expect(stats.average_length).toBeGreaterThan(0);
+      expect(stats.median_length).toBeGreaterThan(0);
+      expect(stats.max_length).toBeGreaterThan(0);
+      expect(stats.min_length).toBeGreaterThan(0);
+      expect(stats.total_length).toEqual(
+        mockBlogs.reduce(
+          (total, blog) => total + blog.title.length + blog.content.length,
+          0,
+        ),
+      );
+    });
+  });
+
+  describe("getBlogPostById", () => {
+    it("should return a blog post by ID with comments and likes information", async () => {
+      const mockPost = {
+        id: 1,
+        title: "Blog Post",
+        content: "Content",
+        User: { displayName: "JohnD" },
+        comments: [],
+        dataValues: {},
+      };
+      BlogPost.findByPk.mockResolvedValue(mockPost);
+      BlogLike.findOne.mockResolvedValue(null);
+
+      const post = await blogController.getBlogPostById(1, 1);
+
+      expect(post).toEqual(mockPost);
+      expect(post.dataValues.liked).toBe(false);
+    });
+
+    it("should throw an error if fetching the post fails", async () => {
+      const error = new Error("Database error");
+      BlogPost.findByPk.mockRejectedValue(error);
+
+      await expect(blogController.getBlogPostById(1)).rejects.toThrow(
+        "Database error",
+      );
+    });
+  });
+
+  describe("updatePostById", () => {
+    it("should update a blog post by ID", async () => {
+      const mockPost = {
+        id: 1,
+        title: "Old Title",
+        update: jest.fn().mockResolvedValue(),
+      };
+      blogController.getBlogPostById = jest.fn().mockResolvedValue(mockPost);
+
+      const updatedPost = await blogController.updatePostById(1, {
+        title: "New Title",
+      });
+
+      expect(updatedPost).toEqual(mockPost);
+      expect(mockPost.update).toHaveBeenCalledWith({ title: "New Title" });
+    });
+
+    it("should throw an error if updating the post fails", async () => {
+      const error = new Error("Database error");
+      blogController.getBlogPostById = jest.fn().mockRejectedValue(error);
+
+      await expect(
+        blogController.updatePostById(1, { title: "New Title" }),
+      ).rejects.toThrow("Database error");
+    });
+  });
+
+  describe("deletePostById", () => {
+    it("should delete a blog post by ID", async () => {
+      const mockPost = {
+        id: 1,
+        destroy: jest.fn().mockResolvedValue(),
+      };
+      blogController.getBlogPostById = jest.fn().mockResolvedValue(mockPost);
+
+      const result = await blogController.deletePostById(1);
+
+      expect(result).toBe(true);
+      expect(mockPost.destroy).toHaveBeenCalled();
+    });
+
+    it("should return false if the post does not exist", async () => {
+      blogController.getBlogPostById = jest.fn().mockResolvedValue(null);
+
+      const result = await blogController.deletePostById(1);
+
+      expect(result).toBe(false);
+    });
+  });
 });
 
 afterAll(async () => {
