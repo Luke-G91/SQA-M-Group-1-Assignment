@@ -3,18 +3,24 @@ const blogPostController = require("../controllers/blogPostController.js");
 
 const router = express.Router();
 
+router.use(express.json());
+router.use(express.urlencoded({ extended: true }));
+
 router.get("/create", (req, res) => {
   res.render("pages/createBlog", { title: "Create Post" });
 });
 
 router.post("/create", async (req, res) => {
-  await blogPostController.createBlogPost(req.body, req.user);
-  res.redirect("/");
+  try {
+    await blogPostController.createBlogPost(req.body, req.user);
+    res.redirect("/");
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error", details: error.message });
+  }
 });
 
 router.get("/:id", async (req, res) => {
   try {
-    // Fetch the blog post and check if the user has liked it
     const post = await blogPostController.getBlogPostById(
       req.params.id,
       req.user ? req.user.id : null,
@@ -25,7 +31,7 @@ router.get("/:id", async (req, res) => {
       res.status(404).send("Post not found");
     }
   } catch (error) {
-    res.status(500).send("Internal server error:", error);
+    res.status(500).json({ error: "Internal server error", details: error.message });
   }
 });
 
@@ -41,7 +47,7 @@ router.get("/:id/edit", async (req, res) => {
       res.status(404).send("Post not found");
     }
   } catch (error) {
-    res.status(500).send("Internal server error:", error);
+    res.status(500).json({ error: "Internal server error", details: error.message });
   }
 });
 
@@ -57,16 +63,20 @@ router.post("/:id/edit", async (req, res) => {
       res.status(404).send("Post not found");
     }
   } catch (error) {
-    res.status(500).send("Internal server error:", error);
+    res.status(500).json({ error: "Internal server error", details: error.message });
   }
 });
 
 router.post("/:id/delete", async (req, res) => {
-  const post = await blogPostController.deletePostById(req.params.id);
-  if (post) {
-    res.redirect("/home");
-  } else {
-    res.status(404).send("Post not found");
+  try {
+    const post = await blogPostController.deletePostById(req.params.id);
+    if (post) {
+      res.redirect("/home");
+    } else {
+      res.status(404).send("Post not found");
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error", details: error.message });
   }
 });
 
@@ -74,11 +84,15 @@ router.post("/:id/like", async (req, res) => {
   if (!req.user) {
     return res.json({ success: false, message: "User not logged in" });
   }
-  const { liked, likeCount } = await blogPostController.toggleLike(
-    req.params.id,
-    req.user.id,
-  );
-  res.json({ success: true, liked, likeCount });
+  try {
+    const { liked, likeCount } = await blogPostController.toggleLike(
+      req.params.id,
+      req.user.id,
+    );
+    res.json({ success: true, liked, likeCount });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error", details: error.message });
+  }
 });
 
 router.get("/:id/comment", (req, res) => {
