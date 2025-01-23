@@ -186,10 +186,6 @@ describe("Blog controller", () => {
 
       const result = await blogController.toggleLike(1, 1);
 
-      console.log("Result:", result);
-      console.log("Mock Post:", mockPost);
-      console.log("Mock Like Destroy Called:", mockLike.destroy.mock.calls.length);
-
       expect(result).toEqual({ liked: false, likeCount: 0 });
       expect(mockLike.destroy).toHaveBeenCalled();
       expect(BlogPost.decrement).toHaveBeenCalledWith("likeCount", { where: { id: 1 } });
