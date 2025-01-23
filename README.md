@@ -26,9 +26,9 @@
 
 | Team Member    | Login Flow | Search and Home Improvements | Likes and Comments | README documentation | Unit Tests | Integration Tests | BDD Tests |
 | -------------- | ---------- | ---------------------------- | ------------------ | -------------------- | ---------- | ----------------- | --------- |
-| Ben Hayward    |            |                              | ✔                 |                      |            |                   |           |
-| Ismahän Hassan |            | ✔                           |                    |                      |            |                   |           |
-| Luke Goodwin   | ✔         |                              |                    | ✔                   |            |                   |           |
+| Ben Hayward    |            |                              | ✔                 | ✔                     | ✔         | ✔                | ✔        |
+| Ismahän Hassan |            | ✔                           |                  | ✔                     | ✔         | ✔                | ✔        |
+| Luke Goodwin   | ✔         |                              |                  | ✔                   | ✔         | ✔                | ✔        |
 
 # Setup Instructions
 
