@@ -24,12 +24,11 @@
 
 ## Team Contributions
 
-| Team Member      | Login Flow | Search and Home Improvements | Likes and Comments | User Profiles | README documentation | Unit Tests | Integration Tests | BDD Tests |
-| ---------------- | ---------- | ---------------------------- | ------------------ | ------------- | -------------------- | ---------- | ----------------- | --------- |
-| Ben Hayward      |            |                              | ✔                 |               |                      |            |                   |           |
-| Elijah Kalambayi |            |                              |                    | ✔            |                      |            |                   |           |
-| Ismahän Hassan   |            | ✔                           |                    |               |                      |            |                   |           |
-| Luke Goodwin     | ✔         |                              |                    |               | ✔                   |            |                   |           |
+| Team Member    | Login Flow | Search and Home Improvements | Likes and Comments | README documentation | Unit Tests | Integration Tests | BDD Tests |
+| -------------- | ---------- | ---------------------------- | ------------------ | -------------------- | ---------- | ----------------- | --------- |
+| Ben Hayward    |            |                              | ✔                 |                      |            |                   |           |
+| Ismahän Hassan |            | ✔                           |                    |                      |            |                   |           |
+| Luke Goodwin   | ✔         |                              |                    | ✔                   |            |                   |           |
 
 # Setup Instructions
 
