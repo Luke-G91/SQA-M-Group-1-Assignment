@@ -15,7 +15,6 @@ app.use((req, res, next) => {
 });
 
 beforeAll(async () => {
-  sequelize.sync({ force: true });
   await initTestServer(app, [{ basePath: "/", router: authRouter }], sequelize);
 });
 
