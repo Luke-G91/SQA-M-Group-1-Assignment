@@ -98,7 +98,7 @@
 - **Behavior-Driven Development (BDD) Tests**
 
   ```bash
-  npm run test:bdd
+  npm run test:cucumber
   ```
 
 - **Unit and Integration Tests**
@@ -110,7 +110,7 @@
 - **All Tests**
 
   ```bash
-  npm run test
+  npm run test:all
   ```
 
 ## Features

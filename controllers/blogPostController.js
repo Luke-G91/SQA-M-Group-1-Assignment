@@ -133,7 +133,6 @@ exports.deletePostById = async (id) => {
     return !!post;
   } catch (error) {
     console.error(`Error updating post with id ${id}:`, error);
-    return false;
   }
 };
 

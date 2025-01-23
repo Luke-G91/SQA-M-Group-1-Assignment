@@ -11,7 +11,6 @@ if (env === "test" || env === "local") {
   sequelize = new Sequelize({
     dialect: "sqlite",
     storage: path.join(__dirname, "..", "database.sqlite"),
-    logging: false,
   });
 } else {
   const connectionString = process.env.DATABASE_URL;

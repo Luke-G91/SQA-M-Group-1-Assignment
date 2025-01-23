@@ -45,7 +45,7 @@ jobs:
         run: npm ci --prefer-offline
 
       - name: Run all tests
-        run: npm run test
+        run: npm run test:all
 
   lint:
     runs-on: ubuntu-latest
