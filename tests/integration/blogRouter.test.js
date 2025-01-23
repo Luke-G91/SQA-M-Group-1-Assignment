@@ -24,11 +24,7 @@ beforeAll(async () => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(mockAuthMiddleware);
-  await initTestServer(
-    app,
-    [{ basePath: "/blog", router: blogRouter }],
-    sequelize,
-  );
+  await initTestServer(app, [{ basePath: "/blog", router: blogRouter }], sequelize);
 
   // Create a test user
   await User.create({
@@ -59,14 +55,14 @@ describe("Blog Router", () => {
     it("Should create a new blog post and redirect to /", async () => {
       const mockBlog = { title: "New Blog", content: "Blog content" };
 
-      const response = await request(app).post("/blog/create").send(mockBlog);
+      const response = await request(app)
+        .post("/blog/create")
+        .send(mockBlog);
 
       expect(response.status).toBe(302);
       expect(response.headers.location).toBe("/");
 
-      const createdBlog = await BlogPost.findOne({
-        where: { title: "New Blog" },
-      });
+      const createdBlog = await BlogPost.findOne({ where: { title: "New Blog" } });
       expect(createdBlog).not.toBeNull();
       expect(createdBlog.content).toBe("Blog content");
     });
@@ -75,11 +71,7 @@ describe("Blog Router", () => {
   describe("GET /blog/:id", () => {
     it("Should render the blog post page", async () => {
       const user = await User.findOne({ where: { email: "test@user.com" } });
-      const blog = await BlogPost.create({
-        title: "Blog Post",
-        content: "Content",
-        userId: 1,
-      });
+      const blog = await BlogPost.create({ title: "Blog Post", content: "Content", userId: user.id });
 
       const response = await request(app).get(`/blog/${blog.id}`);
 
@@ -99,11 +91,7 @@ describe("Blog Router", () => {
   describe("GET /blog/:id/edit", () => {
     it("Should render the edit blog post page", async () => {
       const user = await User.findOne({ where: { email: "test@user.com" } });
-      const blog = await BlogPost.create({
-        title: "Blog Post",
-        content: "Content",
-        userId: 1,
-      });
+      const blog = await BlogPost.create({ title: "Blog Post", content: "Content", userId: user.id });
 
       const response = await request(app).get(`/blog/${blog.id}/edit`);
 
@@ -122,11 +110,7 @@ describe("Blog Router", () => {
   describe("POST /blog/:id/edit", () => {
     it("Should update the blog post and redirect to the blog post page", async () => {
       const user = await User.findOne({ where: { email: "test@user.com" } });
-      const blog = await BlogPost.create({
-        title: "Blog Post",
-        content: "Content",
-        userId: 1,
-      });
+      const blog = await BlogPost.create({ title: "Blog Post", content: "Content", userId: user.id });
 
       const response = await request(app)
         .post(`/blog/${blog.id}/edit`)
@@ -153,11 +137,7 @@ describe("Blog Router", () => {
   describe("POST /blog/:id/delete", () => {
     it("Should delete the blog post and redirect to /home", async () => {
       const user = await User.findOne({ where: { email: "test@user.com" } });
-      const blog = await BlogPost.create({
-        title: "Blog Post",
-        content: "Content",
-        userId: 1,
-      });
+      const blog = await BlogPost.create({ title: "Blog Post", content: "Content", userId: user.id });
 
       const response = await request(app).post(`/blog/${blog.id}/delete`);
 
@@ -179,22 +159,14 @@ describe("Blog Router", () => {
   describe("POST /blog/:id/like", () => {
     it("Should like the blog post and return the updated like count", async () => {
       const user = await User.findOne({ where: { email: "test@user.com" } });
-      const blog = await BlogPost.create({
-        title: "Blog Post",
-        content: "Content",
-        userId: 1,
-      });
+      const blog = await BlogPost.create({ title: "Blog Post", content: "Content", userId: user.id });
 
       const response = await request(app)
         .post(`/blog/${blog.id}/like`)
         .set("user", user);
 
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        liked: true,
-        likeCount: 1,
-      });
+      expect(response.body).toEqual({ success: true, liked: true, likeCount: 1 });
 
       const updatedBlog = await BlogPost.findByPk(blog.id);
       expect(updatedBlog.likeCount).toBe(1);
@@ -206,21 +178,14 @@ describe("Blog Router", () => {
         .set("mock-auth", "false");
 
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: false,
-        message: "User not logged in",
-      });
+      expect(response.body).toEqual({ success: false, message: "User not logged in" });
     });
   });
 
   describe("POST /blog/:id/comment", () => {
     it("Should add a comment to the blog post and redirect to the blog post page", async () => {
       const user = await User.findOne({ where: { email: "test@user.com" } });
-      const blog = await BlogPost.create({
-        title: "Blog Post",
-        content: "Content",
-        userId: 1,
-      });
+      const blog = await BlogPost.create({ title: "Blog Post", content: "Content", userId: user.id });
 
       const response = await request(app)
         .post(`/blog/${blog.id}/comment`)
@@ -230,24 +195,16 @@ describe("Blog Router", () => {
       expect(response.status).toBe(302);
       expect(response.headers.location).toBe(`/blog/${blog.id}`);
 
-      const comment = await BlogComment.findOne({
-        where: { blogId: blog.id, userId: 1 },
-      });
+      const comment = await BlogComment.findOne({ where: { blogId: blog.id, userId: user.id } });
       expect(comment).not.toBeNull();
       expect(comment.comment).toBe("Nice post!");
     });
 
     it("Should return an error if adding a comment fails", async () => {
       const user = await User.findOne({ where: { email: "test@user.com" } });
-      const blog = await BlogPost.create({
-        title: "Blog Post",
-        content: "Content",
-        userId: 1,
-      });
+      const blog = await BlogPost.create({ title: "Blog Post", content: "Content", userId: user.id });
 
-      jest
-        .spyOn(BlogComment, "create")
-        .mockRejectedValue(new Error("Database error"));
+      jest.spyOn(BlogComment, "create").mockRejectedValue(new Error("Database error"));
 
       const response = await request(app)
         .post(`/blog/${blog.id}/comment`)
@@ -264,16 +221,8 @@ describe("Blog Router", () => {
   describe("PUT /blog/comment/:id", () => {
     it("Should update the comment and return the updated comment", async () => {
       const user = await User.findOne({ where: { email: "test@user.com" } });
-      const blog = await BlogPost.create({
-        title: "Blog Post",
-        content: "Content",
-        userId: 1,
-      });
-      const comment = await BlogComment.create({
-        comment: "Nice post!",
-        blogId: blog.id,
-        userId: 1,
-      });
+      const blog = await BlogPost.create({ title: "Blog Post", content: "Content", userId: user.id });
+      const comment = await BlogComment.create({ comment: "Nice post!", blogId: blog.id, userId: user.id });
 
       const response = await request(app)
         .put(`/blog/comment/${comment.id}`)
@@ -295,28 +244,15 @@ describe("Blog Router", () => {
         .set("mock-auth", "false");
 
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: false,
-        message: "You must be logged in to edit comments",
-      });
+      expect(response.body).toEqual({ success: false, message: "You must be logged in to edit comments" });
     });
 
     it("Should return an error if updating the comment fails", async () => {
       const user = await User.findOne({ where: { email: "test@user.com" } });
-      const blog = await BlogPost.create({
-        title: "Blog Post",
-        content: "Content",
-        userId: 1,
-      });
-      const comment = await BlogComment.create({
-        comment: "Nice post!",
-        blogId: blog.id,
-        userId: 1,
-      });
+      const blog = await BlogPost.create({ title: "Blog Post", content: "Content", userId: user.id });
+      const comment = await BlogComment.create({ comment: "Nice post!", blogId: blog.id, userId: user.id });
 
-      jest
-        .spyOn(BlogComment.prototype, "save")
-        .mockRejectedValue(new Error("Database error"));
+      jest.spyOn(BlogComment.prototype, "save").mockRejectedValue(new Error("Database error"));
 
       const response = await request(app)
         .put(`/blog/comment/${comment.id}`)
@@ -324,11 +260,7 @@ describe("Blog Router", () => {
         .set("user", user);
 
       expect(response.status).toBe(500);
-      expect(response.body).toEqual({
-        success: false,
-        message: "Error updating comment",
-        error: {},
-      });
+      expect(response.body).toEqual({ success: false, message: "Error updating comment", error: {} });
 
       BlogComment.prototype.save.mockRestore();
     });
