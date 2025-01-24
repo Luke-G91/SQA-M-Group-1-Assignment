@@ -214,8 +214,19 @@ Passport implementation and login router.
 - **Documentation:** Detailed documentation of the tests is provided, explaining the purpose and functionality of each test.
 
   - **Code Reference:** 
-    - Unit Tests: [tests/unit/](./tests/unit/)
-    - Integration Tests: [tests/integration/](./tests/integration/)
+    - Unit Tests: 
+      - [tests/unit/blogPostController.test.js](./tests/unit/blogPostController.test.js) 
+      - [tests/unit/userController.test.js](./tests/unit/userController.test.js)
+    - Integration Tests: 
+      - [tests/integration/authRouter.test.js](./tests/integration/authRouter.test.js)
+      - [tests/integration/blogRouter.test.js](./tests/integration/blogRouter.test.js)
+    - BDD Tests: 
+      - [features/step_definitions/home.test.js](./features/step_defintions/home.test.js)
+      - [features/home.feature](./features/home.feature)
+      - [features/step_definitions/login.test.js](./features/step_defintions/login.test.js)
+      - [features/login.feature](./features/login.feature)
+      - [features/step_definitions/register.test.js](./features/step_defintions/register.test.js)
+      - [features/register.feature](./features/register.feature)
   - **Coverage Report:** 
     ![Coverage Report](/screenshots/coverage_report.png)
   - **Test Execution:** 
@@ -281,16 +292,7 @@ Passport implementation and login router.
 
 ## Feature Implementation Evidence
 
-- **Video Demonstration:** [Link to video demonstrating features]
-
-## Testing Evidence
-
-- **Test Execution:** [Screenshots of running tests]
-- **Coverage Report:** [Screenshots of coverage report]
-
-## Security Enhancements Evidence
-
-- **Security Implementation:** [Description and code references]
+- **Video Demonstration:** [Walkthrough video](https://youtu.be/Ovkz2Pbvh3M)
 
 ## Code Quality and Refactoring Evidence
 
@@ -366,6 +368,18 @@ _Figure 14: Example of ESLint code quality check successful results_
 _Figure 15: Git graph showing our branching strategy in action_
 
 ## Conclusion
+The team successfully delivered significant improvements to the blog application while implementing robust software quality assurance practices:
 
-- **Project Outcomes:** Successfully enhanced the blog application with improved security, testing, and user features.
-- **Future Improvements:** Plan to further optimize performance and expand user functionalities.
+### Key Achievements
+- Enhanced security through proper password hashing and CSRF protection
+- Implemented comprehensive testing strategy including BDD, unit, and integration tests
+- Added new features including user profiles, blog interactions (likes/comments), and improved search functionality
+- Established efficient CI/CD pipelines using GitHub Actions
+- Maintained high code quality through modularization and industry-standard practices
+
+### Future Improvements
+- Implement additional security features like two-factor authentication
+- Enhance performance optimization for scaling
+- Add more social features for user interaction
+- Expand test coverage across all components
+- Implement automated deployment pipelines
