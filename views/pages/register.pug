@@ -1,0 +1,27 @@
+doctype html
+html
+  head
+    title Register
+    link(rel="stylesheet" href="/css/login.css")
+    script(src="/javascripts/validateRegister.js")
+  body
+    .container
+      form.register-form(method="post" action="/register" onsubmit="return validateRegister()")
+        h1 Register
+        input(type="text" name="firstName" id="firstName" placeholder="First Name" required)
+        span.error-message#firstNameError
+        input(type="text" name="lastName" id="lastName" placeholder="Last Name" required)
+        span.error-message#lastNameError
+        input(type="email" name="email" id="email" placeholder="Email" required)
+        span.error-message#emailError
+        input(type="text" name="displayName" id="displayName" placeholder="Display Name" required)
+        span.error-message#displayNameError
+        input(type="password" name="password" id="password" placeholder="Password" required minlength="8")
+        span.error-message#passwordError
+        input(type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required)
+        span.error-message#confirmPasswordError
+        button(type="submit") Register
+      .link-container
+        p Already have an account?
+        p
+          a(href="/login") Login here

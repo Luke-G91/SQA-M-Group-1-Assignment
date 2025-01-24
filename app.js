@@ -1,31 +1,52 @@
-const express = require('express');
-const path = require('path');
-const { sequelize } = require('./models');
-const blogRoutes = require('./routes/blog');
+const express = require("express");
+const sequelize = require("./config/database.js");
+const passport = require("passport");
+const bodyParser = require("body-parser");
+
+const setupViewEngine = require("./setup/setupViewEngine.js");
+const setupMiddleware = require("./setup/setupMiddleware.js");
+const setupRoutes = require("./setup/setupRoutes.js");
+const syncDatabase = require("./setup/syncDatabase.js");
+const startServer = require("./setup/startServer.js");
+const setupAuth = require("./setup/setupAuth.js");
+const setupFlash = require("./setup/setupFlash.js");
+
+const indexRouter = require("./routers/indexRouter.js");
+const blogRouter = require("./routers/blogRouter.js");
+const authRouter = require("./routers/authRouter.js");
+
+async function initializeServer(app, port, passport, session, routers) {
+  // setup all requirements for express server
+  setupViewEngine(app);
+  setupMiddleware(app);
+  setupAuth(app, session, passport);
+  setupFlash(app);
+  setupRoutes(app, routers);
+
+  // Use body-parser middleware
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+
+  await syncDatabase(sequelize);
+
+  startServer(app, port);
+}
 
 const app = express();
+// port the application will be exposed on
 const port = process.env.PORT || 3000;
+// session config required for passport setup
+const session = {
+  secret: process.env.SESSION_SECRET,
+  cookie: {},
+  resave: false,
+  saveUninitialized: false,
+};
+// list of routers and the starting path
+const routers = [
+  { basePath: "/", router: indexRouter },
+  { basePath: "/", router: authRouter },
+  { basePath: "/blog", router: blogRouter },
+];
 
-// View engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
-
-// Middleware
-// Parse URL-encoded bodies (as sent by HTML forms)
-// This middleware is needed to handle form submissions in our blog application
-app.use(express.urlencoded({ extended: true }));
-
-// Serve static files from the 'public' directory
-// This middleware allows us to serve our CSS file and any other static assets
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Routes
-app.use('/', blogRoutes);
-
-// Sync database and start server
-sequelize.sync().then(() => {
-  app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
-  });
-});
-
+initializeServer(app, port, passport, session, routers);

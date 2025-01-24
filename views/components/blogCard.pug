@@ -1,0 +1,4 @@
+div(id="blogPost")
+  div(id="container")
+    a(href=`/blog/${post.id}`) #{post.title} by #{post.user.displayName} (#{post.createdAt.toLocaleDateString()})
+    p Likes #{post.likeCount} | Comments #{post.commentCount}

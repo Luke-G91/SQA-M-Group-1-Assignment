@@ -1,0 +1,23 @@
+#blogPost {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 5px;
+    background-color: rgba(0,0,0,0.1);
+    width: fit-content;
+    margin-bottom: 20px;
+}
+
+#container{
+    padding: 5px 20px;
+}
+
+button[id^="like-button-"] {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+button[id^="like-button-"].liked {
+  background-color: #28a745;
+}

@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    title Login
+    link(rel="stylesheet" href="/css/login.css")
+  body
+    .container
+      form.login-form(method="post" action="/login")
+        h1 Login
+        input(type="email" name="email" placeholder="Email" required)
+        input(type="password" name="password" placeholder="Password" required)
+        button(type="submit") Login
+      if errors && errors.length > 0
+          .alert.alert-danger
+            ul
+              each error in errors
+                li= error
+      .link-container
+        p Don't have an account?
+        p
+          a(href="/register") Register here

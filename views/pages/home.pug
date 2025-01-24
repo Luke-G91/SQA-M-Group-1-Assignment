@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+  //Search section for entering a query and submitting it to home
+  section.search-section
+    .search-wrapper
+      form(action="/home" method="GET")
+        label(for="search") Search Motivational Blogs
+        input(type="search" id="search" name="query" placeholder="Search for inspiration...")
+        button(type="submit") Search
+        button(type="button" onclick="window.location='/home'") Clear
+  // Check if there are any posts to display
+  if posts.length
+    ul
+      each post in posts
+        include ../components/blogCard
+  else
+    p No blogs found. Please try a different search query.

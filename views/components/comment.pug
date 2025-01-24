@@ -1,0 +1,11 @@
+div.comment(id=`comment-${comment.id}`)
+  p.comment-meta
+    span.comment-author #{comment.user.displayName}
+    span.comment-date (#{comment.createdAt.toLocaleString()})
+    if user && user.id === comment.userId
+      button.edit-comment(onclick=`editComment(${comment.id})`) Edit
+  p.comment-text(id=`comment-text-${comment.id}`) #{comment.comment}
+  div.edit-form(id=`edit-form-${comment.id}` style='display: none;')
+    textarea(id=`edit-input-${comment.id}`) #{comment.comment}
+    button(onclick=`updateComment(${comment.id})`) Save
+    button(onclick=`cancelEdit(${comment.id})`) Cancel

@@ -47,5 +47,101 @@ body {
   button.danger {
     background: #ff0000;
   }
+  /*styles for the search section, centering the content and creating spacing between elements.*/
+
+  .search-section {
+    margin: 2rem;
+    text-align: center;
+  }
   
+  .search-wrapper {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 500px;
+    margin: 0 auto;
+  }
   
+  .search-section .search-wrapper input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .search-wrapper button {
+    margin-right: 0.5rem;  /* Adds space between the buttons */
+  }
+  
+  .search-wrapper button:last-child {
+    margin-right: 0;  /* Ensures no extra margin on the last button */
+  }
+
+  /* Comment section styles */
+  .comment-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+  }
+  
+  .comment-form {
+    margin-bottom: 20px;
+  }
+  
+  .comment-form textarea {
+    width: 100%;
+    min-height: 100px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .char-count {
+    color: #666;
+    font-size: 0.8em;
+    margin-bottom: 10px;
+  }
+  
+  .error-message {
+    color: red;
+    margin-top: 5px;
+  }
+  
+  .comment {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .comment-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  
+  .comment-author {
+    font-weight: bold;
+  }
+  
+  .comment-date {
+    color: #666;
+    font-size: 0.9em;
+  }
+  
+  .edit-comment {
+    background: none;
+    border: none;
+    color: #1DA1F2;
+    cursor: pointer;
+  }
+  
+  .edit-form textarea {
+    width: 100%;
+    min-height: 60px;
+    margin-bottom: 10px;
+    padding: 5px;
+  }
+
