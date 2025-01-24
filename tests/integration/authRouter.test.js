@@ -15,7 +15,7 @@ app.use((req, res, next) => {
   next();
 });
 
-beforeEach(async () => {
+beforeAll(async () => {
   await initTestServer(
     app,
     [

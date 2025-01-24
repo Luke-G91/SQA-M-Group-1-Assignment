@@ -20,7 +20,7 @@ const mockAuthMiddleware = (req, res, next) => {
   });
 };
 
-beforeEach(async () => {
+beforeAll(async () => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(mockAuthMiddleware);
