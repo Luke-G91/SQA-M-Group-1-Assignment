@@ -8,7 +8,7 @@ const { Op } = Sequelize;
 
 jest.mock("../../models/index");
 
-beforeAll(async () => {
+beforeEach(async () => {
   const app = express();
   await initTestServer(app, sequelize);
 
