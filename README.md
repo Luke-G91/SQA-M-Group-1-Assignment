@@ -132,6 +132,7 @@
 | Testing environment setup             | Different testing approaches (unit, integration, BDD) required different configurations                                     | Created separate test configuration files. Added npm scripts for different test types. Documented test setup process                                                             |
 | Code style consistency                | Different IDE settings and personal preferences leading to inconsistent code                                                | Implemented ESLint and Prettier.                                                                                                                                                 |
 | Knowledge sharing                     | Team members having different levels of expertise in different areas                                                        | Created documentation for key implementations. Added comments for complex logic. Conducted code review sessions                                                                  |
+| Passwords are not secure              | Users can use passwords that are simple and easy to guess allowing others to gain access to their account                   | Added backend validation to ensure passwords have a minimum length, include a caps character and a special character                                                             |
 
 ## Evidence for Marking Criteria
 
