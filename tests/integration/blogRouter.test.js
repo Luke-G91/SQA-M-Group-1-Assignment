@@ -3,7 +3,6 @@ const request = require("supertest");
 const bodyParser = require("body-parser");
 const initTestServer = require("../../features/utils/initializeTestServer.js");
 const blogRouter = require("../../routers/blogRouter.js");
-const authRouter = require("../../routers/authRouter.js");
 const sequelize = require("../../config/database.js");
 const { User, BlogPost, BlogComment } = require("../../models");
 
@@ -20,18 +19,20 @@ const mockAuthMiddleware = (req, res, next) => {
   });
 };
 
-beforeEach(async () => {
+beforeAll(async () => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(mockAuthMiddleware);
   await initTestServer(
     app,
-    [
-      { basePath: "/blog", router: blogRouter },
-      { basePath: "/", router: authRouter },
-    ],
+    [{ basePath: "/blog", router: blogRouter }],
     sequelize,
   );
+});
+
+beforeEach(async () => {
+  // Clear all tables before each test
+  await sequelize.truncate({ cascade: true, force: true });
 
   // Create a test user
   await User.create({
@@ -43,8 +44,13 @@ beforeEach(async () => {
   });
 });
 
+afterEach(async () => {
+  // Clean up after each test
+  await sequelize.truncate({ cascade: true, force: true });
+});
+
 afterAll(async () => {
-  await sequelize.close();
+  await Promise.all([sequelize.close()]);
 });
 
 describe("Blog Router", () => {

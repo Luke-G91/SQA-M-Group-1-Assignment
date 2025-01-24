@@ -24,12 +24,11 @@
 
 ## Team Contributions
 
-| Team Member      | Login Flow | Search and Home Improvements | Likes and Comments | User Profiles | README documentation | Unit Tests | Integration Tests | BDD Tests |
-| ---------------- | ---------- | ---------------------------- | ------------------ | ------------- | -------------------- | ---------- | ----------------- | --------- |
-| Ben Hayward      |            |                              | ✔                 |               |                      |            |                   |           |
-| Elijah Kalambayi |            |                              |                    | ✔            |                      |            |                   |           |
-| Ismahän Hassan   |            | ✔                           |                    |               |                      |            |                   |           |
-| Luke Goodwin     | ✔         |                              |                    |               | ✔                   |            |                   |           |
+| Team Member    | Login Flow | Search and Home Improvements | Likes and Comments | README documentation | Unit Tests | Integration Tests | BDD Tests |
+| -------------- | ---------- | ---------------------------- | ------------------ | -------------------- | ---------- | ----------------- | --------- |
+| Ben Hayward    |            |                              | ✔                 | ✔                   | ✔         | ✔                | ✔        |
+| Ismahän Hassan |            | ✔                           |                    | ✔                   | ✔         | ✔                | ✔        |
+| Luke Goodwin   | ✔         |                              |                    | ✔                   | ✔         | ✔                | ✔        |
 
 # Setup Instructions
 
@@ -122,10 +121,18 @@
 
 ## Challenges and Solutions
 
-| Challenge                 | Risk                                                                                                                        | Solution                                                                                                                     |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| Implementing secure login | User details including passwords are accessible that and anyone can access anyone else's account                            | Used bcrypt for password hashing and CSRF protection.                                                                        |
-| SQL injection             | Database queries such as blog post search could allow SQL queries to be added to the search to leak or modify database data | Sequlize uses paramteised queries which safely escape and inject parameters to prevent malicious alteration of the SQL query |
+| Challenge                             | Risk                                                                                                                        | Solution                                                                                                                                                                         |
+| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Implementing secure login             | User details including passwords are accessible that and anyone can access anyone else's account                            | Used bcrypt for password hashing and CSRF protection                                                                                                                             |
+| SQL injection                         | Database queries such as blog post search could allow SQL queries to be added to the search to leak or modify database data | Sequelize uses parameterized queries which safely escape and inject parameters to prevent malicious alteration of the SQL query                                                  |
+| Merge conflicts                       | Multiple team members working on the same files could lead to code loss or incorrect merges                                 | Implemented clear branch naming conventions and required PR reviews. Used feature branches to isolate work. Communicated actively about which files team members were working on |
+| Environment inconsistencies           | Code working locally but failing in different environments (Windows vs Linux, different Node versions)                      | Created Docker setup to ensure consistent development environment. Added detailed environment setup documentation. Specified exact dependency versions in package.json           |
+| Time management with work commitments | Difficulty coordinating team activities due to different work schedules and commitments                                     | Set up async communication channels. Scheduled regular but flexible check-ins                                                                                                    |
+| Database schema changes               | Changes to database models could break existing functionality                                                               | Created an ERD and implemented the required database schema early to prevent issues later                                                                                        |
+| Testing environment setup             | Different testing approaches (unit, integration, BDD) required different configurations                                     | Created separate test configuration files. Added npm scripts for different test types. Documented test setup process                                                             |
+| Code style consistency                | Different IDE settings and personal preferences leading to inconsistent code                                                | Implemented ESLint and Prettier.                                                                                                                                                 |
+| Knowledge sharing                     | Team members having different levels of expertise in different areas                                                        | Created documentation for key implementations. Added comments for complex logic. Conducted code review sessions                                                                  |
+| Passwords are not secure              | Users can use passwords that are simple and easy to guess allowing others to gain access to their account                   | Added backend validation to ensure passwords have a minimum length, include a caps character and a special character                                                             |
 
 ## Evidence for Marking Criteria
 
@@ -185,13 +192,33 @@
 
 ### Code Quality and Refactoring
 
-- **Modularization:** Improved code structure for better maintainability.
-- **Code Standards:** Followed industry-standard coding practices.
+- **File Structure Update:** The project file structure was reorganized to facilitate modularization, improving maintainability and readability. [Modularized app functions](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/8/commits/099f51754eb220d1faf9914e0c692df9d2541108)
+- **Environment Configuration:** Introduced a `.env` file to securely store configuration secrets such as the database URL and server port. [Database url from env](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/1)
+- **Function Reusability:** Consolidated repeated code into separate, reusable functions.
+- **Template Extensibility:** Organized Pug files and used `extends` for better template extensibility. [Pug file improvements](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/3/commits/53a2e8096c0240ab265d44bb1851a6ba0bfc358f)
+- **Password Security:** Utilized `bcrypt` for secure password hashing. [Bcrypt alongside user auth](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/9/commits/b00384942f5c5327ccf75caa7543feae7c7fa959)
+- **CSS Management:** Separated CSS into multiple files to enhance maintainability.
+- **Error Handling:** Improved error handling for database interactions and synchronization.
+- **Router Organization:** Split routers into distinct sections using different base paths for cleaner and more organized code. [Seperated routers](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/3/commits/84733bee3b2ac699d5e95b3eaf5bbf633f1789e8)
+- **Docker Setup:** Created Docker and Docker Compose files for easy and consistent setup across different environments. [Docker Setup Example](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/11)
+- **Router-Controller Separation:** Separated routers from controllers to maintain clear separation of concerns.
+- **Environment-Specific Configurations:** Used different environments for local, testing, and production, allowing SQLite for local and PostgreSQL for production. [Test env added](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/3/commits/b179cb9dfe8134d7862fc721b770ae5e88014d3d)
+- **Testing Scripts:** Added scripts in `package.json` to streamline running and testing processes.
+- **Mocking in Tests:** Implemented mocks in unit tests to ensure consistent behavior and independence of functions.
+- **Code Improvements Evidence:** [Code Formatting Example](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/19), [Refactor Example](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/3)
 
 ### CI/CD and Git Practices
 
-- **CI/CD Workflows:** Set up GitHub Actions for automated testing and linting.
-- **Collaboration Evidence:** [Screenshots or logs from GitHub Actions]
+- **CI/CD Setup:** Implemented GitHub Actions to automate testing for unit, integration, and BDD tests on a standardized environment using Node.js on Ubuntu. [List of Actions](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/actions)
+- **Linting and Formatting:** Integrated ESLint for code linting and Prettier for consistent code formatting.
+- **Database Model Management:** Organized database models in individual files and managed associations from a unified file. [Database models](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/6)
+- **Naming Conventions:** Ensured function and variable names are readable and descriptive.
+- **Branching Strategy:** Utilized a development branch workflow with releases to the main branch.
+- **Branch Naming Conventions:** Followed industry standard git branching patterns such as `feat`, `doc`, `test`, `ci` for branch organization. [Test Naming Convention PR](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/242), [Doc Naming Convention PR](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/12), [CI Naming Convention PR](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/15)
+- **Branch Protection Rules:** Established rules to enforce consistency, requiring PRs to be squashed into a single commit with standardized messages like `Feat: change here`.
+- **Pull Request Reviews:** Required at least one review approval for PRs, with stale reviews upon further commits to ensure code quality. [Changes Requested Example with Comments](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/pull/21)
+- **Merge Blockage on Request Changes:** Prevented merges until requested changes were addressed and approved.
+- **GitHub Actions Enforcement:** Required passing GitHub Actions tests and lint checks before merging. [Successful Action Log](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/actions/runs/12927683564), [Failing Lint Action Log](https://github.com/Luke-G91/SQA-M-Group-1-Assignment/actions/runs/12929744677)
 
 ## Feature Implementation Evidence
 
@@ -208,11 +235,76 @@
 
 ## Code Quality and Refactoring Evidence
 
-- **Code Improvements:** [Description and code references]
+### Code Structure Improvements
+
+![Code Structure Before Refactor](./screenshots/app-before.png)
+_Figure 1: App.js before refactor and modularization_
+
+![Code Structure Before and After](./screenshots/app-after.png)
+_Figure 2: App.js after refactor and modularization_
+
+### Database Model Organization
+
+![User Model User.js](./screenshots/user-model.png)
+_Figure 3: Screenshot of individual User model_
+
+![Blog Post Model BlogPost.js](./screenshots/blog-post-model.png)
+_Figure 4: Screenshot of individual BlogPost model_
+
+![Separate models](./screenshots/db-models.png)
+_Figure 5: Screenshot showing the organized database models structure_
+
+### Environment Configuration
+
+```env
+# Example of our .env structure
+PORT=3000
+SESSION_SECRET=****
+DATABASE_URL=****
+```
+
+_Figure 6: Example of environment configuration (with sensitive data redacted)_
+
+### Router Separation
+
+![Router Organization](./screenshots/router-structure.png)
+_Figure 7: Screenshot showing the separation of routes into distinct modules_
 
 ## CI/CD and Git Practices Evidence
 
-- **Workflow Evidence:** [Screenshots or logs]
+### Branch Protection Rules
+
+![Branch Protection Settings](./screenshots/protection-rules.png)
+_Figure 8: Screenshot of GitHub branch protection rules configuration_
+
+### Pull Request Review Process
+
+![PR Review Example](./screenshots/resolved-comments.png)
+_Figure 9: Example of a pull request with review comments that have been resolved_
+
+![PR Review Example Comments](./screenshots/pr-comments.png)
+_Figure 10: Example of pull request comments_
+
+### GitHub Actions Workflow
+
+![GitHub Actions Dashboard Fail](./screenshots/action-fail.png)
+_Figure 11: Screenshot of GitHub Actions showing failing test runs_
+
+![GitHub Actions Dashboard Success](./screenshots/action-success.png)
+_Figure 12: Screenshot of GitHub Actions showing successful test runs_
+
+### Code Quality Checks
+
+![ESLint Results Fail](./screenshots/lint-fail.png)
+_Figure 13: Example of ESLint code quality check with failed results_
+
+![ESLint Results Success](./screenshots/lint-success.png)
+_Figure 14: Example of ESLint code quality check successful results_
+
+### Branching Strategy
+
+![Git Graph](./screenshots/git-graph.png)
+_Figure 15: Git graph showing our branching strategy in action_
 
 ## Conclusion
 
