@@ -141,7 +141,7 @@
 Description: 
 This blog application offers key features for an enhanced user experience. Users can search for posts by keywords, blog name, or author, with the option to clear their search. They can like posts to show appreciation and comment to foster discussions, with the ability to edit their comments. A secure login and registration system ensures user data protection, allowing registered users to access interactive features like liking and commenting.
 
-- **Code Reference:** 
+- **Code Examples:** 
 
 ![Registration form with secure password hashing implementation](./screenshots/feature-1.png)
 The code implements a registration feature, securely hashing user passwords with bcrypt, saving user details via a controller, and redirecting to the login page upon successful registration.
@@ -199,6 +199,93 @@ Commit history showing the development of the search feature.
 
 ![Passport implementation](./screenshots/feature-19.png)
 Passport implementation and login router.
+
+- **Sample Code References:**
+  - **User Authentication and Password Security**: [userController.js](./controllers/userController.js)
+    Implements secure user authentication using bcrypt for password hashing and comparison. This prevents storing plaintext passwords and ensures secure login verification through cryptographic hashing.
+    ```javascript
+    // User authentication with secure password comparison
+    exports.authUser = async (email, password, done) => {
+      const isPasswordValid = await bcrypt.compare(password, user.hashedPassword);
+      // ...
+    };
+    ```
+
+  - **Blog Search and Filtering**: [blogPostController.js](./controllers/blogPostController.js)
+    Provides case-insensitive search functionality across blog titles, content, and author names. Uses Sequelize's secure query parameters to prevent SQL injection while enabling flexible search capabilities.
+    ```javascript
+    // Case-insensitive search across multiple fields
+    exports.getAllBlogPosts = async (searchQuery = "") => {
+      const blogs = await BlogPost.findAll({
+        where: {
+          [Op.or]: [
+            Sequelize.where(
+              Sequelize.fn("LOWER", Sequelize.col("title")),
+              "LIKE",
+              `%${searchQuery.toLowerCase()}%`
+            ),
+            // ...
+          ],
+        },
+      });
+    };
+    ```
+
+  - **Comment Management**: [blogPostController.js](./controllers/blogPostController.js)
+    Handles comment creation and validation with proper error handling and security checks. Ensures comments meet length requirements and are associated with authenticated users.
+    ```javascript
+    exports.addComment = async (commentData) => {
+      // Basic validation
+      if (!commentData || typeof commentData.comment !== "string") {
+        throw new Error("Comment text is required");
+      }
+      const trimmedComment = commentData.comment.trim();
+      if (trimmedComment.length > 500) {
+        throw new Error("Comment cannot exceed 500 characters");
+      }
+      // ...
+    };
+    ```
+
+  - **Database Schema Relations**: [models/index.js](./models/index.js)
+    Establishes relationships between different entities in the application using Sequelize associations. Creates a proper data structure for users, posts, likes, and comments with appropriate foreign keys.
+    ```javascript
+    User.belongsToMany(BlogPost, {
+      through: BlogLike,
+      foreignKey: "userId",
+      otherKey: "blogId",
+    });
+    BlogPost.hasMany(BlogComment, {
+      foreignKey: 'blogId',
+      as: 'comments'
+    });
+    ```
+
+  - **Environment Configuration**: [config/database.js](./config/database.js)
+    Manages different database configurations based on the application environment. Supports development with SQLite, testing with in-memory database, and production with PostgreSQL.
+    ```javascript
+    if (env === "test") {
+      sequelize = new Sequelize({
+        dialect: "sqlite",
+        storage: ":memory:",
+        logging: false
+      });
+    }
+    ```
+
+  - **User Input Validation**: [controllers/utils/validateUserData.js](./controllers/utils/validateUserData.js)
+    Implements comprehensive validation for user registration data. Checks for proper email format, password strength, and required fields while preventing malicious inputs.
+    ```javascript
+    function validateUserData(userData) {
+      if (!isValidEmail(userData.email)) {
+        throw new Error('Invalid email format');
+      }
+      if (!isStrongPassword(userData.password)) {
+        throw new Error('Password does not meet security requirements');
+      }
+      // ...
+    }
+    ```
 
 ### Testing 
 
