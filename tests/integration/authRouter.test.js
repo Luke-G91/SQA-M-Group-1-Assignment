@@ -4,6 +4,7 @@ const initTestServer = require("../../features/utils/initializeTestServer.js");
 const authRouter = require("../../routers/authRouter.js");
 const sequelize = require("../../config/database.js");
 const userController = require("../../controllers/userController.js");
+const blogRouter = require("../../routers/blogRouter.js");
 
 const app = express();
 
@@ -14,8 +15,15 @@ app.use((req, res, next) => {
   next();
 });
 
-beforeAll(async () => {
-  await initTestServer(app, [{ basePath: "/", router: authRouter }], sequelize);
+beforeEach(async () => {
+  await initTestServer(
+    app,
+    [
+      { basePath: "/blog", router: blogRouter },
+      { basePath: "/", router: authRouter },
+    ],
+    sequelize,
+  );
 });
 
 describe("Auth Router", () => {
