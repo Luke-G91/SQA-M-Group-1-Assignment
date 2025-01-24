@@ -138,7 +138,7 @@
 
 - **Comprehensive Unit and Integration Tests:** We have implemented comprehensive unit and integration tests using Jest. The tests cover various functionalities of the application, including edge cases.
 - **Code Coverage:** Our tests achieve over 80% code coverage, ensuring that most of the codebase is tested.
-- **Testing Techniques:** We have utilized Test-Driven Development (TDD) and Behavior-Driven Development (BDD) techniques to ensure the quality of our tests.
+- **Testing Techniques:** We have utilized Behavior-Driven Development (BDD) techniques to ensure the quality of our tests.
 - **Testing Frameworks and Tools:** We used Jest for unit and integration tests, and Cucumber for BDD tests.
 - **Continuous Integration:** Automated testing is set up using GitHub Actions to ensure tests are run on every push and pull request.
 - **Example Test Cases:**
@@ -171,93 +171,17 @@
 - **Implementation Details:** Detailed implementation of security measures is provided in the codebase.
 
   - **Code Reference:** 
-    - Input Validation: [controllers/blogPostController.js#L13](./controllers/blogPostController.js#L13)
-    - CSRF Protection: [routers/authRouter.js#L25](./routers/authRouter.js#L25)
-    - Password Hashing: [routers/authRouter.js#L32](./routers/authRouter.js#L32)
-    - XSS Protection: [controllers/blogPostController.js#L13](./controllers/blogPostController.js#L13)
-    - SQL Injection Protection: [models/index.js#L10](./models/index.js#L10)
+    - Input Validation: [controllers/blogPostController.js#L13](./controllers/blogPostController.js#L13) // Validates and sanitizes blog post data
+    - CSRF Protection: [routers/authRouter.js#L12](./routers/authRouter.js#L12) // Protects against CSRF attacks in authentication routes
+    - Password Hashing: [routers/authRouter.js#L32](./routers/authRouter.js#L32) // Hashes user passwords before storing them
+    - XSS Protection: [features/step_defintions/home.test.js#L30](./features/step_defintions/home.test.js#L30) // Ensures input fields are sanitized to prevent XSS
+    - SQL Injection Protection: [models/index.js#L10](./models/index.js#L10) // Uses parameterized queries to prevent SQL injection
   - **Security Implementation:** 
-    ```javascript
-    // filepath: features/step_defintions/home.test.js
-    // ...existing code...
-    const { check, validationResult } = require('express-validator');
-    
-    exports.createPost = [
-      check('title').notEmpty().withMessage('Title is required'),
-      check('content').notEmpty().withMessage('Content is required'),
-      (req, res, next) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-          return res.status(400).json({ errors: errors.array() });
-        }
-        // Sanitize input to prevent XSS
-        req.body.title = req.sanitize(req.body.title);
-        req.body.content = req.sanitize(req.body.content);
-        // ...existing code...
-      }
-    ];
-    // ...existing code...
-    ```
-
-    ```javascript
-    // filepath: routers/authRouter.js
-    // ...existing code...
-    const csrf = require('csurf');
-    const bcrypt = require('bcrypt');
-    
-    const csrfProtection = csrf({ cookie: true });
-    
-    router.post('/login', csrfProtection, async (req, res) => {
-      const { email, password } = req.body;
-      const user = await User.findOne({ where: { email } });
-      if (user && bcrypt.compareSync(password, user.hashedPassword)) {
-        req.session.userId = user.id;
-        res.redirect('/');
-      } else {
-        res.status(401).send('Unauthorized');
-      }
-    });
-    // ...existing code...
-    ```
-
-    ```javascript
-    // filepath: models/index.js
-    // ...existing code...
-    const { Sequelize, DataTypes } = require('sequelize');
-    const sequelize = new Sequelize(process.env.DATABASE_URL, {
-      dialect: 'postgres',
-      logging: false,
-    });
-
-    const User = sequelize.define('User', {
-      // ...existing code...
-    });
-
-    const BlogPost = sequelize.define('BlogPost', {
-      title: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      content: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-      },
-      userId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-    });
-
-    // Use parameterized queries to prevent SQL injection
-    BlogPost.findAll({
-      where: {
-        title: {
-          [Sequelize.Op.like]: '%searchTerm%',
-        },
-      },
-    });
-    // ...existing code...
-    ```
+    - Input Validation: [controllers/blogPostController.js](./controllers/blogPostController.js) // Validates and sanitizes blog post data
+    - CSRF Protection: [routers/authRouter.js](./routers/authRouter.js) // Protects against CSRF attacks in authentication routes
+    - Password Hashing: [routers/authRouter.js](./routers/authRouter.js) // Hashes user passwords before storing them
+    - XSS Protection: [features/step_defintions/home.test.js](./features/step_defintions/home.test.js) // Ensures input fields are sanitized to prevent XSS
+    - SQL Injection Protection: [models/index.js](./models/index.js) // Uses parameterized queries to prevent SQL injection
 
 ### Code Quality and Refactoring
 
