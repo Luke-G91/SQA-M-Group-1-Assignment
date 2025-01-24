@@ -136,9 +136,9 @@
 
 ## Evidence for Marking Criteria
 
-### Feature Implementation 
+### Feature Implementation
 
-Description: 
+Description:
 This blog application offers key features for an enhanced user experience. Users can search for posts by keywords, blog name, or author, with the option to clear their search. They can like posts to show appreciation and comment to foster discussions, with the ability to edit their comments. A secure login and registration system ensures user data protection, allowing registered users to access interactive features like liking and commenting.
 
 ![Registration form with secure password hashing implementation](./screenshots/feature-1.png)
@@ -151,7 +151,7 @@ _Figure 2: The code implements a like feature, enabling logged-in users to toggl
 _Figure 3: The code implements a comment feature, enabling users to write and submit comments on specific blog posts, which are saved with user and post details_
 
 ![Blog search functionality with filtering options](./screenshots/feature-4.png)
-_Figure 4:  The code implements a search feature, allowing users to find blog posts by title or author, with the option to clear the search query and a message displayed when no blogs of that type are found._
+_Figure 4: The code implements a search feature, allowing users to find blog posts by title or author, with the option to clear the search query and a message displayed when no blogs of that type are found._
 
 ![Search feature template in Pug](./screenshots/feature-5.png)
 _Figure 5: Search feature HTML Pug implementation showing the search form and results layout._
@@ -199,12 +199,16 @@ _Figure 18: Search feature development commit history_
 _Figure 19: Passport implementation and login router_
 
 - **Sample Code References:**
+
   - **User Authentication and Password Security**: [userController.js](./controllers/userController.js)
     Implements secure user authentication using bcrypt for password hashing and comparison. This prevents storing plaintext passwords and ensures secure login verification through cryptographic hashing.
     ```javascript
     // User authentication with secure password comparison
     exports.authUser = async (email, password, done) => {
-      const isPasswordValid = await bcrypt.compare(password, user.hashedPassword);
+      const isPasswordValid = await bcrypt.compare(
+        password,
+        user.hashedPassword,
+      );
       // ...
     };
     ```
@@ -219,7 +223,7 @@ _Figure 19: Passport implementation and login router_
             Sequelize.where(
               Sequelize.fn("LOWER", Sequelize.col("title")),
               "LIKE",
-              `%${searchQuery.toLowerCase()}%`
+              `%${searchQuery.toLowerCase()}%`,
             ),
             // ...
           ],
@@ -251,8 +255,8 @@ _Figure 19: Passport implementation and login router_
       otherKey: "blogId",
     });
     BlogPost.hasMany(BlogComment, {
-      foreignKey: 'blogId',
-      as: 'comments'
+      foreignKey: "blogId",
+      as: "comments",
     });
     ```
   - **Environment Configuration**: [config/database.js](./config/database.js)
@@ -262,7 +266,7 @@ _Figure 19: Passport implementation and login router_
       sequelize = new Sequelize({
         dialect: "sqlite",
         storage: ":memory:",
-        logging: false
+        logging: false,
       });
     }
     ```
@@ -271,17 +275,19 @@ _Figure 19: Passport implementation and login router_
     ```javascript
     function validateUserData(userData) {
       if (!isValidEmail(userData.email)) {
-        throw new Error('Invalid email format');
+        throw new Error("Invalid email format");
       }
       if (!isStrongPassword(userData.password)) {
-        throw new Error('Password does not meet security requirements');
+        throw new Error("Password does not meet security requirements");
       }
       // ...
     }
     ```
   - **Views and Templates**:
+
     - **Main Layout**: [views/layout.pug](./views/layout.pug)
       Provides the base template with navigation and common elements across all pages. Includes proper CSS and JavaScript dependencies.
+
       ```pug
       doctype html
       html(lang="en")
@@ -292,6 +298,7 @@ _Figure 19: Passport implementation and login router_
 
     - **Home Page**: [views/pages/home.pug](./views/pages/home.pug)
       Implements the search interface and blog post listing with dynamic content rendering.
+
       ```pug
       section.search-section
         .search-wrapper
@@ -307,7 +314,7 @@ _Figure 19: Passport implementation and login router_
           a(href=`/blog/${post.id}`) #{post.title}
       ```
 
-### Testing 
+### Testing
 
 - **Comprehensive Unit and Integration Tests:** We have implemented comprehensive unit and integration tests using Jest. The tests cover various functionalities of the application, including edge cases.
 - **Code Coverage:** Our tests achieve over 80% code coverage, ensuring that most of the codebase is tested.
@@ -320,24 +327,24 @@ _Figure 19: Passport implementation and login router_
   - **BDD Test:** Testing the user login flow from the UI perspective.
 - **Documentation:** Detailed documentation of the tests is provided, explaining the purpose and functionality of each test.
 
-  - **Code Reference:** 
-    - Unit Tests: 
-      - [tests/unit/blogPostController.test.js](./tests/unit/blogPostController.test.js) 
+  - **Code Reference:**
+    - Unit Tests:
+      - [tests/unit/blogPostController.test.js](./tests/unit/blogPostController.test.js)
       - [tests/unit/userController.test.js](./tests/unit/userController.test.js)
-    - Integration Tests: 
+    - Integration Tests:
       - [tests/integration/authRouter.test.js](./tests/integration/authRouter.test.js)
       - [tests/integration/blogRouter.test.js](./tests/integration/blogRouter.test.js)
-    - BDD Tests: 
+    - BDD Tests:
       - [features/step_definitions/home.test.js](./features/step_defintions/home.test.js)
       - [features/home.feature](./features/home.feature)
       - [features/step_definitions/login.test.js](./features/step_defintions/login.test.js)
       - [features/login.feature](./features/login.feature)
       - [features/step_definitions/register.test.js](./features/step_defintions/register.test.js)
       - [features/register.feature](./features/register.feature)
-  - **Coverage Report:** 
+  - **Coverage Report:**
     ![Test coverage report showing code coverage metrics for unit, integration and BDD tests](./screenshots/coverage_report.png)
     _Figure 20: Test coverage report showing code coverage metrics for unit, integration and BDD tests_
-  - **Test Execution:** 
+  - **Test Execution:**
     ![Example of a failing test execution demonstrating error reporting](./screenshots/failing_test.png)
     _Figure 21: Example of a failing test execution demonstrating error reporting_
     ![Example of a successful test execution showing all passing assertions](./screenshots/passing_test.png)
@@ -358,13 +365,13 @@ _Figure 19: Passport implementation and login router_
   - **XSS:** Testing input fields to ensure they are not vulnerable to Cross-Site Scripting attacks.
 - **Implementation Details:** Detailed implementation of security measures is provided in the codebase.
 
-  - **Code Reference:** 
+  - **Code Reference:**
     - Input Validation: [controllers/blogPostController.js#L13](./controllers/blogPostController.js#L13) // Validates and sanitizes blog post data
     - CSRF Protection: [routers/authRouter.js#L12](./routers/authRouter.js#L12) // Protects against CSRF attacks in authentication routes
     - Password Hashing: [routers/authRouter.js#L32](./routers/authRouter.js#L32) // Hashes user passwords before storing them
     - XSS Protection: [features/step_defintions/home.test.js#L30](./features/step_defintions/home.test.js#L30) // Ensures input fields are sanitized to prevent XSS
     - SQL Injection Protection: [models/index.js#L10](./models/index.js#L10) // Uses parameterized queries to prevent SQL injection
-  - **Security Implementation:** 
+  - **Security Implementation:**
     - Input Validation: [controllers/blogPostController.js](./controllers/blogPostController.js) // Validates and sanitizes blog post data
     - CSRF Protection: [routers/authRouter.js](./routers/authRouter.js) // Protects against CSRF attacks in authentication routes
     - Password Hashing: [routers/authRouter.js](./routers/authRouter.js) // Hashes user passwords before storing them
@@ -479,9 +486,11 @@ _Figure 37: Example of ESLint code quality check successful results_
 _Figure 38: Git graph showing our branching strategy in action_
 
 ## Conclusion
+
 The team successfully delivered significant improvements to the blog application while implementing robust software quality assurance practices:
 
 ### Key Achievements
+
 - Enhanced security through proper password hashing and CSRF protection
 - Implemented comprehensive testing strategy including BDD, unit, and integration tests
 - Added new features including user profiles, blog interactions (likes/comments), and improved search functionality
@@ -489,6 +498,7 @@ The team successfully delivered significant improvements to the blog application
 - Maintained high code quality through modularization and industry-standard practices
 
 ### Future Improvements
+
 - Implement additional security features like two-factor authentication
 - Enhance performance optimization for scaling
 - Add more social features for user interaction
