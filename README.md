@@ -135,21 +135,38 @@ Description:
 This blog application offers key features for an enhanced user experience. Users can search for posts by keywords, blog name, or author, with the option to clear their search. They can like posts to show appreciation and comment to foster discussions, with the ability to edit their comments. A secure login and registration system ensures user data protection, allowing registered users to access interactive features like liking and commenting.
 
 - **Code Reference:** 
-![Authentication feature] (feature.png)
-![Registration feature](feature-1.png)
-![Like feature](feature-2.png) ![Comment](feature-3.png)
-![Search feature](feature-4.png) ![Search HTML Pug](feature-5.png)
-![Registration HTML Pug](feature-6.png)
-![CSS for Search feature](feature-7.png)
-![CSS for comment feature](feature-8.png)
+
+The code implements a registration feature, securely hashing user passwords with bcrypt, saving user details via a controller, and redirecting to the login page upon successful registration. (feature.png)
+
+The code implements a like feature, enabling logged-in users to toggle likes on blog posts and returning the updated like status and count in real-time.(feature-2.png) 
+
+The code implements a comment feature, enabling users to write and submit comments on specific blog posts, which are saved with user and post details.(feature-3.png)
+
+
+The code implements a search feature, allowing users to find blog posts by title or author, with the option to clear the search query and a message displayed when no blogs of that type are found. (feature-4.png) 
+
+Search feature HTML Pug (feature-5.png)
+
+Registration feature HTML Pug (feature-6.png)
+
+CSS fot search feature (feature-7.png)
+
+CSS for comment feature (feature-8.png)
 
 - **Additional Evidence:** 
-![Luke's pull request for user authentication](feature-12.png)
-![commits for the user authentication](feature-13.png)
-![Ben's pull request for Likes](feature-14.png) ![Pull request for comment](feature-15.png)
-![commits for comment](feature-16.png)
-![Ismahan's pull request for Search feature](feature-17.png)
-![Commuts for search](feature-18.png)
+Luke's pull request for user authentication (feature-12.png)
+
+commits for the user authentication (feature-13.png)
+
+Ben's pull request for Likes (feature-14.png) 
+
+Pull request for comment (feature-15.png)
+
+commits for comment (feature-16.png)
+
+Ismahan's pull request for Search feature (feature-17.png)
+
+Commits for search (feature-18.png)
 
 ### Testing
 
