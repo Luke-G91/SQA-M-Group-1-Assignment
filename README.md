@@ -136,20 +136,59 @@
 
 ## Evidence for Marking Criteria
 
-### Feature Implementation
+### Feature Implementation 
 
 - **Code Reference:** [Link to relevant code sections]
 - **Additional Evidence:** [Screenshots, videos, or links]
 
-### Testing
+### Testing 
 
-- **Testing Approach:** Utilized Jest for unit and integration tests.
-- **Coverage Report:** [Screenshots of test coverage]
+- **Comprehensive Unit and Integration Tests:** We have implemented comprehensive unit and integration tests using Jest. The tests cover various functionalities of the application, including edge cases.
+- **Code Coverage:** Our tests achieve over 80% code coverage, ensuring that most of the codebase is tested.
+- **Testing Techniques:** We have utilized Behavior-Driven Development (BDD) techniques to ensure the quality of our tests.
+- **Testing Frameworks and Tools:** We used Jest for unit and integration tests, and Cucumber for BDD tests.
+- **Continuous Integration:** Automated testing is set up using GitHub Actions to ensure tests are run on every push and pull request.
+- **Example Test Cases:**
+  - **Unit Test:** Testing the user authentication function.
+  - **Integration Test:** Testing the interaction between the blog post creation and the database.
+  - **BDD Test:** Testing the user login flow from the UI perspective.
+- **Documentation:** Detailed documentation of the tests is provided, explaining the purpose and functionality of each test.
+
+  - **Code Reference:** 
+    - Unit Tests: [tests/unit/](./tests/unit/)
+    - Integration Tests: [tests/integration/](./tests/integration/)
+  - **Coverage Report:** 
+    ![Coverage Report](/screenshots/coverage_report.png)
+  - **Test Execution:** 
+    - Example of a failing test ![alt text](/screenshots/failing_test.png)
+    - Example of a successful test ![alt text](/screenshots/passing_test.png)
+    - Example of test suite ![alt text](/screenshots/test_suite.png)
 
 ### Security Enhancements
 
-- **Security Measures:** Implemented password hashing and CSRF protection.
-- **Code Reference:** [Link to relevant code sections]
+- **Input Validation:** We have implemented input validation to ensure that all user inputs are properly validated before processing.
+- **CSRF Protection:** Cross-Site Request Forgery (CSRF) protection is implemented to prevent unauthorized actions on behalf of authenticated users.
+- **Password Hashing:** User passwords are hashed using bcrypt before storing them in the database, ensuring that passwords are not stored in plain text.
+- **Advanced Safeguards:** We have incorporated advanced safeguards against vulnerabilities such as Cross-Site Scripting (XSS) and SQL injection.
+  - **XSS Protection:** Input fields are sanitized and encoded to prevent XSS attacks.
+  - **SQL Injection Protection:** We use parameterized queries with Sequelize ORM to prevent SQL injection attacks.
+- **Example Security Test Cases:**
+  - **SQL Injection:** Testing input fields to ensure they are not vulnerable to SQL injection attacks.
+  - **XSS:** Testing input fields to ensure they are not vulnerable to Cross-Site Scripting attacks.
+- **Implementation Details:** Detailed implementation of security measures is provided in the codebase.
+
+  - **Code Reference:** 
+    - Input Validation: [controllers/blogPostController.js#L13](./controllers/blogPostController.js#L13) // Validates and sanitizes blog post data
+    - CSRF Protection: [routers/authRouter.js#L12](./routers/authRouter.js#L12) // Protects against CSRF attacks in authentication routes
+    - Password Hashing: [routers/authRouter.js#L32](./routers/authRouter.js#L32) // Hashes user passwords before storing them
+    - XSS Protection: [features/step_defintions/home.test.js#L30](./features/step_defintions/home.test.js#L30) // Ensures input fields are sanitized to prevent XSS
+    - SQL Injection Protection: [models/index.js#L10](./models/index.js#L10) // Uses parameterized queries to prevent SQL injection
+  - **Security Implementation:** 
+    - Input Validation: [controllers/blogPostController.js](./controllers/blogPostController.js) // Validates and sanitizes blog post data
+    - CSRF Protection: [routers/authRouter.js](./routers/authRouter.js) // Protects against CSRF attacks in authentication routes
+    - Password Hashing: [routers/authRouter.js](./routers/authRouter.js) // Hashes user passwords before storing them
+    - XSS Protection: [features/step_defintions/home.test.js](./features/step_defintions/home.test.js) // Ensures input fields are sanitized to prevent XSS
+    - SQL Injection Protection: [models/index.js](./models/index.js) // Uses parameterized queries to prevent SQL injection
 
 ### Code Quality and Refactoring
 
