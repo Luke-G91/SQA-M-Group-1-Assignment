@@ -18,6 +18,20 @@ beforeAll(async () => {
   await initTestServer(app, [{ basePath: "/", router: authRouter }], sequelize);
 });
 
+beforeEach(async () => {
+  // Clear all tables before each test
+  await sequelize.truncate({ cascade: true, force: true });
+});
+
+afterEach(async () => {
+  // Clean up after each test
+  await sequelize.truncate({ cascade: true, force: true });
+});
+
+afterAll(async () => {
+  await Promise.all([sequelize.close()]);
+});
+
 describe("Auth Router", () => {
   describe("GET /login", () => {
     it("Should render the login page", async () => {
