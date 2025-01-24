@@ -138,8 +138,67 @@
 
 ### Feature Implementation 
 
-- **Code Reference:** [Link to relevant code sections]
-- **Additional Evidence:** [Screenshots, videos, or links]
+Description: 
+This blog application offers key features for an enhanced user experience. Users can search for posts by keywords, blog name, or author, with the option to clear their search. They can like posts to show appreciation and comment to foster discussions, with the ability to edit their comments. A secure login and registration system ensures user data protection, allowing registered users to access interactive features like liking and commenting.
+
+- **Code Reference:** 
+
+![Registration form with secure password hashing implementation](./screenshots/feature-1.png)
+The code implements a registration feature, securely hashing user passwords with bcrypt, saving user details via a controller, and redirecting to the login page upon successful registration.
+
+![Blog post like button and counter implementation](./screenshots/feature-2.png)
+The code implements a like feature, enabling logged-in users to toggle likes on blog posts and returning the updated like status and count in real-time.
+
+![Comment section with CRUD operations](./screenshots/feature-3.png)
+The code implements a comment feature, enabling users to write and submit comments on specific blog posts, which are saved with user and post details.
+
+![Blog search functionality with filtering options](./screenshots/feature-4.png)
+The code implements a search feature, allowing users to find blog posts by title or author, with the option to clear the search query and a message displayed when no blogs of that type are found.
+
+![Search feature template in Pug](./screenshots/feature-5.png)
+Search feature HTML Pug implementation showing the search form and results layout.
+
+![Registration page template in Pug](./screenshots/feature-6.png)
+Registration feature HTML Pug implementation with form validation and error handling.
+
+![Search feature styling](./screenshots/feature-7.png)
+CSS implementation for the search feature including responsive design elements.
+
+![Comment feature styling](./screenshots/feature-8.png)
+CSS implementation for the comment feature with interactive elements.
+
+![Blog router tests pull request](./screenshots/feature-9.png)
+Ben's pull request implementing the blog router integration tests.
+
+![Search feature pull request](./screenshots/feature-10.png)
+Ismahan's pull request implementing the search functionality.
+
+![Authentication testing pull request](./screenshots/feature-11.png)
+Luke's pull request implementing user authentication testing.
+
+![Authentication pull request](./screenshots/feature-12.png)
+Luke's pull request implementing user authentication with bcrypt.
+
+![Authentication commit history](./screenshots/feature-13.png)
+Commit history showing the progression of user authentication implementation.
+
+![Like feature pull request](./screenshots/feature-14.png)
+Ben's pull request implementing the blog like feature.
+
+![Comment feature pull request](./screenshots/feature-15.png)
+Pull request implementing the comment system with edit capabilities.
+
+![Comment feature commit history](./screenshots/feature-16.png)
+Commit history showing the implementation stages of the comment feature.
+
+![Search feature pull request](./screenshots/feature-17.png)
+Ismahan's pull request implementing the search functionality.
+
+![Search feature commit history](./screenshots/feature-18.png)
+Commit history showing the development of the search feature.
+
+![Passport implementation](./screenshots/feature-19.png)
+Passport implementation and login router.
 
 ### Testing 
 
