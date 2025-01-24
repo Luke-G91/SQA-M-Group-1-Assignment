@@ -26,9 +26,9 @@
 
 | Team Member    | Login Flow | Search and Home Improvements | Likes and Comments | README documentation | Unit Tests | Integration Tests | BDD Tests |
 | -------------- | ---------- | ---------------------------- | ------------------ | -------------------- | ---------- | ----------------- | --------- |
-| Ben Hayward    |            |                              | ✔                 | ✔                     | ✔         | ✔                | ✔        |
-| Ismahän Hassan |            | ✔                           |                  | ✔                     | ✔         | ✔                | ✔        |
-| Luke Goodwin   | ✔         |                              |                  | ✔                   | ✔         | ✔                | ✔        |
+| Ben Hayward    |            |                              | ✔                 | ✔                   | ✔         | ✔                | ✔        |
+| Ismahän Hassan |            | ✔                           |                    | ✔                   | ✔         | ✔                | ✔        |
+| Luke Goodwin   | ✔         |                              |                    | ✔                   | ✔         | ✔                | ✔        |
 
 # Setup Instructions
 
@@ -121,17 +121,17 @@
 
 ## Challenges and Solutions
 
-| Challenge | Risk | Solution |
-| --------- | ---- | -------- |
-| Implementing secure login | User details including passwords are accessible that and anyone can access anyone else's account | Used bcrypt for password hashing and CSRF protection |
-| SQL injection | Database queries such as blog post search could allow SQL queries to be added to the search to leak or modify database data | Sequelize uses parameterized queries which safely escape and inject parameters to prevent malicious alteration of the SQL query |
-| Merge conflicts | Multiple team members working on the same files could lead to code loss or incorrect merges | Implemented clear branch naming conventions and required PR reviews. Used feature branches to isolate work. Communicated actively about which files team members were working on |
-| Environment inconsistencies | Code working locally but failing in different environments (Windows vs Linux, different Node versions) | Created Docker setup to ensure consistent development environment. Added detailed environment setup documentation. Specified exact dependency versions in package.json |
-| Time management with work commitments | Difficulty coordinating team activities due to different work schedules and commitments | Set up async communication channels. Scheduled regular but flexible check-ins |
-| Database schema changes | Changes to database models could break existing functionality | Created an ERD and implemented the required database schema early to prevent issues later |
-| Testing environment setup | Different testing approaches (unit, integration, BDD) required different configurations | Created separate test configuration files. Added npm scripts for different test types. Documented test setup process |
-| Code style consistency | Different IDE settings and personal preferences leading to inconsistent code | Implemented ESLint and Prettier. |
-| Knowledge sharing | Team members having different levels of expertise in different areas | Created documentation for key implementations. Added comments for complex logic. Conducted code review sessions |
+| Challenge                             | Risk                                                                                                                        | Solution                                                                                                                                                                         |
+| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Implementing secure login             | User details including passwords are accessible that and anyone can access anyone else's account                            | Used bcrypt for password hashing and CSRF protection                                                                                                                             |
+| SQL injection                         | Database queries such as blog post search could allow SQL queries to be added to the search to leak or modify database data | Sequelize uses parameterized queries which safely escape and inject parameters to prevent malicious alteration of the SQL query                                                  |
+| Merge conflicts                       | Multiple team members working on the same files could lead to code loss or incorrect merges                                 | Implemented clear branch naming conventions and required PR reviews. Used feature branches to isolate work. Communicated actively about which files team members were working on |
+| Environment inconsistencies           | Code working locally but failing in different environments (Windows vs Linux, different Node versions)                      | Created Docker setup to ensure consistent development environment. Added detailed environment setup documentation. Specified exact dependency versions in package.json           |
+| Time management with work commitments | Difficulty coordinating team activities due to different work schedules and commitments                                     | Set up async communication channels. Scheduled regular but flexible check-ins                                                                                                    |
+| Database schema changes               | Changes to database models could break existing functionality                                                               | Created an ERD and implemented the required database schema early to prevent issues later                                                                                        |
+| Testing environment setup             | Different testing approaches (unit, integration, BDD) required different configurations                                     | Created separate test configuration files. Added npm scripts for different test types. Documented test setup process                                                             |
+| Code style consistency                | Different IDE settings and personal preferences leading to inconsistent code                                                | Implemented ESLint and Prettier.                                                                                                                                                 |
+| Knowledge sharing                     | Team members having different levels of expertise in different areas                                                        | Created documentation for key implementations. Added comments for complex logic. Conducted code review sessions                                                                  |
 
 ## Evidence for Marking Criteria
 
@@ -196,65 +196,75 @@
 ## Code Quality and Refactoring Evidence
 
 ### Code Structure Improvements
+
 ![Code Structure Before Refactor](./screenshots/app-before.png)
-*Figure 1: App.js before refactor and modularization*
+_Figure 1: App.js before refactor and modularization_
 
 ![Code Structure Before and After](./screenshots/app-after.png)
-*Figure 2: App.js before refactor and modularization*
+_Figure 2: App.js after refactor and modularization_
 
 ### Database Model Organization
+
 ![User Model User.js](./screenshots/user-model.png)
-*Figure 3: Screenshot User individual model*
+_Figure 3: Screenshot of individual User model_
 
 ![Blog Post Model BlogPost.js](./screenshots/blog-post-model.png)
-*Figure 4: Screenshot BlogPost individual model*
+_Figure 4: Screenshot of individual BlogPost model_
 
 ![Separate models](./screenshots/db-models.png)
-*Figure 5: Screenshot showing the organized database models structure*
+_Figure 5: Screenshot showing the organized database models structure_
 
 ### Environment Configuration
+
 ```env
 # Example of our .env structure
 PORT=3000
 SESSION_SECRET=****
 DATABASE_URL=****
 ```
-*Figure 6: Example of environment configuration (with sensitive data redacted)*
+
+_Figure 6: Example of environment configuration (with sensitive data redacted)_
 
 ### Router Separation
+
 ![Router Organization](./screenshots/router-structure.png)
-*Figure 7: Screenshot showing the separation of routes into distinct modules*
+_Figure 7: Screenshot showing the separation of routes into distinct modules_
 
 ## CI/CD and Git Practices Evidence
 
 ### Branch Protection Rules
+
 ![Branch Protection Settings](./screenshots/protection-rules.png)
-*Figure 8: Screenshot of GitHub branch protection rules configuration*
+_Figure 8: Screenshot of GitHub branch protection rules configuration_
 
 ### Pull Request Review Process
+
 ![PR Review Example](./screenshots/resolved-comments.png)
-*Figure 9: Example of a pull request with review comments that have been resolved*
+_Figure 9: Example of a pull request with review comments that have been resolved_
 
 ![PR Review Example Comments](./screenshots/pr-comments.png)
-*Figure 10: Example of pull request comments*
+_Figure 10: Example of pull request comments_
 
 ### GitHub Actions Workflow
+
 ![GitHub Actions Dashboard Fail](./screenshots/action-fail.png)
-*Figure 11: Screenshot of GitHub Actions showing failing test runs*
+_Figure 11: Screenshot of GitHub Actions showing failing test runs_
 
 ![GitHub Actions Dashboard Success](./screenshots/action-success.png)
-*Figure 12: Screenshot of GitHub Actions showing successful test runs*
+_Figure 12: Screenshot of GitHub Actions showing successful test runs_
 
 ### Code Quality Checks
+
 ![ESLint Results Fail](./screenshots/lint-fail.png)
-*Figure 13: Example of ESLint code quality check with failed results*
+_Figure 13: Example of ESLint code quality check with failed results_
 
 ![ESLint Results Success](./screenshots/lint-success.png)
-*Figure 14: Example of ESLint code quality check successful results*
+_Figure 14: Example of ESLint code quality check successful results_
 
 ### Branching Strategy
+
 ![Git Graph](./screenshots/git-graph.png)
-*Figure 15: Git graph showing our branching strategy in action*
+_Figure 15: Git graph showing our branching strategy in action_
 
 ## Conclusion
 
