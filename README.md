@@ -167,26 +167,38 @@ CSS implementation for the search feature including responsive design elements.
 ![Comment feature styling](./screenshots/feature-8.png)
 CSS implementation for the comment feature with interactive elements.
 
-![Authentication pull request](./screenshots/feature-9.png)
-Luke's pull request implementing user authentication with bcrypt.
+![Blog router tests pull request](./screenshots/feature-9.png)
+Ben's pull request implementing the blog router integration tests.
 
-![Authentication commit history](./screenshots/feature-10.png)
-Commit history showing the progression of user authentication implementation.
-
-![Like feature pull request](./screenshots/feature-11.png)
-Ben's pull request implementing the post likes functionality.
-
-![Comment feature pull request](./screenshots/feature-12.png)
-Pull request implementing the comment system with edit capabilities.
-
-![Comment feature commit history](./screenshots/feature-13.png)
-Commit history showing the implementation stages of the comment feature.
-
-![Search feature pull request](./screenshots/feature-14.png)
+![Search feature pull request](./screenshots/feature-10.png)
 Ismahan's pull request implementing the search functionality.
 
-![Search feature commit history](./screenshots/feature-15.png)
+![Authentication testing pull request](./screenshots/feature-11.png)
+Luke's pull request implementing user authentication testing.
+
+![Authentication pull request](./screenshots/feature-12.png)
+Luke's pull request implementing user authentication with bcrypt.
+
+![Authentication commit history](./screenshots/feature-13.png)
+Commit history showing the progression of user authentication implementation.
+
+![Like feature pull request](./screenshots/feature-14.png)
+Ben's pull request implementing the blog like feature.
+
+![Comment feature pull request](./screenshots/feature-15.png)
+Pull request implementing the comment system with edit capabilities.
+
+![Comment feature commit history](./screenshots/feature-16.png)
+Commit history showing the implementation stages of the comment feature.
+
+![Search feature pull request](./screenshots/feature-17.png)
+Ismahan's pull request implementing the search functionality.
+
+![Search feature commit history](./screenshots/feature-18.png)
 Commit history showing the development of the search feature.
+
+![Passport implementation](./screenshots/feature-19.png)
+Passport implementation and login router.
 
 ### Testing 
 
