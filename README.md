@@ -136,71 +136,185 @@
 
 ## Evidence for Marking Criteria
 
-### Feature Implementation 
+### Feature Implementation
 
-Description: 
+Description:
 This blog application offers key features for an enhanced user experience. Users can search for posts by keywords, blog name, or author, with the option to clear their search. They can like posts to show appreciation and comment to foster discussions, with the ability to edit their comments. A secure login and registration system ensures user data protection, allowing registered users to access interactive features like liking and commenting.
 
-- **Code Reference:** 
-
 ![Registration form with secure password hashing implementation](./screenshots/feature-1.png)
-The code implements a registration feature, securely hashing user passwords with bcrypt, saving user details via a controller, and redirecting to the login page upon successful registration.
+_Figure 1: The code implements a registration feature, securely hashing user passwords with bcrypt, saving user details via a controller, and redirecting to the login page upon successful registration_
 
-![Blog post like button and counter implementation](./screenshots/feature-2.png)
-The code implements a like feature, enabling logged-in users to toggle likes on blog posts and returning the updated like status and count in real-time.
+![Like button and counter implementation](./screenshots/feature-2.png)
+_Figure 2: The code implements a like feature, enabling logged-in users to toggle likes on blog posts and returning the updated like status and count in real-time_
 
 ![Comment section with CRUD operations](./screenshots/feature-3.png)
-The code implements a comment feature, enabling users to write and submit comments on specific blog posts, which are saved with user and post details.
+_Figure 3: The code implements a comment feature, enabling users to write and submit comments on specific blog posts, which are saved with user and post details_
 
 ![Blog search functionality with filtering options](./screenshots/feature-4.png)
-The code implements a search feature, allowing users to find blog posts by title or author, with the option to clear the search query and a message displayed when no blogs of that type are found.
+_Figure 4: The code implements a search feature, allowing users to find blog posts by title or author, with the option to clear the search query and a message displayed when no blogs of that type are found._
 
 ![Search feature template in Pug](./screenshots/feature-5.png)
-Search feature HTML Pug implementation showing the search form and results layout.
+_Figure 5: Search feature HTML Pug implementation showing the search form and results layout._
 
-![Registration page template in Pug](./screenshots/feature-6.png)
-Registration feature HTML Pug implementation with form validation and error handling.
+![Registration feature HTML Pug implementation](./screenshots/feature-6.png)
+_Figure 6: Registration feature HTML Pug implementation with form validation and error handling._
 
-![Search feature styling](./screenshots/feature-7.png)
-CSS implementation for the search feature including responsive design elements.
+![CSS implementation for the search feature](./screenshots/feature-7.png)
+_Figure 7: CSS implementation for the search feature_
 
-![Comment feature styling](./screenshots/feature-8.png)
-CSS implementation for the comment feature with interactive elements.
+![CSS implementation for the comment feature](./screenshots/feature-8.png)
+_Figure 8: CSS implementation for the comment feature_
 
-![Blog router tests pull request](./screenshots/feature-9.png)
-Ben's pull request implementing the blog router integration tests.
+![Ben's pull request implementing blog router integration tests](./screenshots/feature-9.png)
+_Figure 9: Ben's pull request implementing blog router integration tests_
 
-![Search feature pull request](./screenshots/feature-10.png)
-Ismahan's pull request implementing the search functionality.
+![Ismahan's pull request implementing search functionality](./screenshots/feature-10.png)
+_Figure 10: Ismahan's pull request implementing search functionality_
 
-![Authentication testing pull request](./screenshots/feature-11.png)
-Luke's pull request implementing user authentication testing.
+![Luke's pull request implementing user authentication testing](./screenshots/feature-11.png)
+_Figure 11: Luke's pull request implementing user authentication testing_
 
-![Authentication pull request](./screenshots/feature-12.png)
-Luke's pull request implementing user authentication with bcrypt.
+![Luke's pull request implementing user authentication with bcrypt](./screenshots/feature-12.png)
+_Figure 12: Luke's pull request implementing user authentication with bcrypt_
 
-![Authentication commit history](./screenshots/feature-13.png)
-Commit history showing the progression of user authentication implementation.
+![Commit history showing authentication implementation progression](./screenshots/feature-13.png)
+_Figure 13: Commit history showing authentication implementation progression_
 
-![Like feature pull request](./screenshots/feature-14.png)
-Ben's pull request implementing the blog like feature.
+![Ben's pull request implementing blog like feature](./screenshots/feature-14.png)
+_Figure 14: Ben's pull request implementing blog like feature_
 
-![Comment feature pull request](./screenshots/feature-15.png)
-Pull request implementing the comment system with edit capabilities.
+![Pull request implementing comment system](./screenshots/feature-15.png)
+_Figure 15: Pull request implementing comment system_
 
-![Comment feature commit history](./screenshots/feature-16.png)
-Commit history showing the implementation stages of the comment feature.
+![Commit history showing comment feature implementation](./screenshots/feature-16.png)
+_Figure 16: Commit history showing comment feature implementation_
 
-![Search feature pull request](./screenshots/feature-17.png)
-Ismahan's pull request implementing the search functionality.
+![Final search functionality pull request](./screenshots/feature-17.png)
+_Figure 17: Final search functionality pull request_
 
-![Search feature commit history](./screenshots/feature-18.png)
-Commit history showing the development of the search feature.
+![Search feature development commit history](./screenshots/feature-18.png)
+_Figure 18: Search feature development commit history_
 
-![Passport implementation](./screenshots/feature-19.png)
-Passport implementation and login router.
+![Passport implementation and login router](./screenshots/feature-19.png)
+_Figure 19: Passport implementation and login router_
 
-### Testing 
+- **Sample Code References:**
+
+  - **User Authentication and Password Security**: [userController.js](./controllers/userController.js)
+    Implements secure user authentication using bcrypt for password hashing and comparison. This prevents storing plaintext passwords and ensures secure login verification through cryptographic hashing.
+    ```javascript
+    // User authentication with secure password comparison
+    exports.authUser = async (email, password, done) => {
+      const isPasswordValid = await bcrypt.compare(
+        password,
+        user.hashedPassword,
+      );
+      // ...
+    };
+    ```
+  - **Blog Search and Filtering**: [blogPostController.js](./controllers/blogPostController.js)
+    Provides case-insensitive search functionality across blog titles, content, and author names. Uses Sequelize's secure query parameters to prevent SQL injection while enabling flexible search capabilities.
+    ```javascript
+    // Case-insensitive search across multiple fields
+    exports.getAllBlogPosts = async (searchQuery = "") => {
+      const blogs = await BlogPost.findAll({
+        where: {
+          [Op.or]: [
+            Sequelize.where(
+              Sequelize.fn("LOWER", Sequelize.col("title")),
+              "LIKE",
+              `%${searchQuery.toLowerCase()}%`,
+            ),
+            // ...
+          ],
+        },
+      });
+    };
+    ```
+  - **Comment Management**: [blogPostController.js](./controllers/blogPostController.js)
+    Handles comment creation and validation with proper error handling and security checks. Ensures comments meet length requirements and are associated with authenticated users.
+    ```javascript
+    exports.addComment = async (commentData) => {
+      // Basic validation
+      if (!commentData || typeof commentData.comment !== "string") {
+        throw new Error("Comment text is required");
+      }
+      const trimmedComment = commentData.comment.trim();
+      if (trimmedComment.length > 500) {
+        throw new Error("Comment cannot exceed 500 characters");
+      }
+      // ...
+    };
+    ```
+  - **Database Schema Relations**: [models/index.js](./models/index.js)
+    Establishes relationships between different entities in the application using Sequelize associations. Creates a proper data structure for users, posts, likes, and comments with appropriate foreign keys.
+    ```javascript
+    User.belongsToMany(BlogPost, {
+      through: BlogLike,
+      foreignKey: "userId",
+      otherKey: "blogId",
+    });
+    BlogPost.hasMany(BlogComment, {
+      foreignKey: "blogId",
+      as: "comments",
+    });
+    ```
+  - **Environment Configuration**: [config/database.js](./config/database.js)
+    Manages different database configurations based on the application environment. Supports development with SQLite, testing with in-memory database, and production with PostgreSQL.
+    ```javascript
+    if (env === "test") {
+      sequelize = new Sequelize({
+        dialect: "sqlite",
+        storage: ":memory:",
+        logging: false,
+      });
+    }
+    ```
+  - **User Input Validation**: [controllers/utils/validateUserData.js](./controllers/utils/validateUserData.js)
+    Implements comprehensive validation for user registration data. Checks for proper email format, password strength, and required fields while preventing malicious inputs.
+    ```javascript
+    function validateUserData(userData) {
+      if (!isValidEmail(userData.email)) {
+        throw new Error("Invalid email format");
+      }
+      if (!isStrongPassword(userData.password)) {
+        throw new Error("Password does not meet security requirements");
+      }
+      // ...
+    }
+    ```
+  - **Views and Templates**:
+
+    - **Main Layout**: [views/layout.pug](./views/layout.pug)
+      Provides the base template with navigation and common elements across all pages. Includes proper CSS and JavaScript dependencies.
+
+      ```pug
+      doctype html
+      html(lang="en")
+        head
+          title= title
+          link(rel="stylesheet", href="/css/styles.css")
+      ```
+
+    - **Home Page**: [views/pages/home.pug](./views/pages/home.pug)
+      Implements the search interface and blog post listing with dynamic content rendering.
+
+      ```pug
+      section.search-section
+        .search-wrapper
+          form(action="/home" method="GET")
+            label(for="search") Search Motivational Blogs
+      ```
+
+    - **Blog Card Component**: [views/components/blogCard.pug](./views/components/blogCard.pug)
+      Reusable component for displaying blog post previews with like counts and comments.
+      ```pug
+      div(id="blogPost")
+        div(id="container")
+          a(href=`/blog/${post.id}`) #{post.title}
+      ```
+
+### Testing
 
 - **Comprehensive Unit and Integration Tests:** We have implemented comprehensive unit and integration tests using Jest. The tests cover various functionalities of the application, including edge cases.
 - **Code Coverage:** Our tests achieve over 80% code coverage, ensuring that most of the codebase is tested.
@@ -213,15 +327,30 @@ Passport implementation and login router.
   - **BDD Test:** Testing the user login flow from the UI perspective.
 - **Documentation:** Detailed documentation of the tests is provided, explaining the purpose and functionality of each test.
 
-  - **Code Reference:** 
-    - Unit Tests: [tests/unit/](./tests/unit/)
-    - Integration Tests: [tests/integration/](./tests/integration/)
-  - **Coverage Report:** 
-    ![Coverage Report](/screenshots/coverage_report.png)
-  - **Test Execution:** 
-    - Example of a failing test ![alt text](/screenshots/failing_test.png)
-    - Example of a successful test ![alt text](/screenshots/passing_test.png)
-    - Example of test suite ![alt text](/screenshots/test_suite.png)
+  - **Code Reference:**
+    - Unit Tests:
+      - [tests/unit/blogPostController.test.js](./tests/unit/blogPostController.test.js)
+      - [tests/unit/userController.test.js](./tests/unit/userController.test.js)
+    - Integration Tests:
+      - [tests/integration/authRouter.test.js](./tests/integration/authRouter.test.js)
+      - [tests/integration/blogRouter.test.js](./tests/integration/blogRouter.test.js)
+    - BDD Tests:
+      - [features/step_definitions/home.test.js](./features/step_defintions/home.test.js)
+      - [features/home.feature](./features/home.feature)
+      - [features/step_definitions/login.test.js](./features/step_defintions/login.test.js)
+      - [features/login.feature](./features/login.feature)
+      - [features/step_definitions/register.test.js](./features/step_defintions/register.test.js)
+      - [features/register.feature](./features/register.feature)
+  - **Coverage Report:**
+    ![Test coverage report showing code coverage metrics for unit, integration and BDD tests](./screenshots/coverage_report.png)
+    _Figure 20: Test coverage report showing code coverage metrics for unit, integration and BDD tests_
+  - **Test Execution:**
+    ![Example of a failing test execution demonstrating error reporting](./screenshots/failing_test.png)
+    _Figure 21: Example of a failing test execution demonstrating error reporting_
+    ![Example of a successful test execution showing all passing assertions](./screenshots/passing_test.png)
+    _Figure 22: Example of a successful test execution showing all passing assertions_
+    ![Overview of the complete test suite execution with test results summary](./screenshots/test_suite.png)
+    _Figure 23: Overview of the complete test suite execution with test results summary_
 
 ### Security Enhancements
 
@@ -236,13 +365,13 @@ Passport implementation and login router.
   - **XSS:** Testing input fields to ensure they are not vulnerable to Cross-Site Scripting attacks.
 - **Implementation Details:** Detailed implementation of security measures is provided in the codebase.
 
-  - **Code Reference:** 
+  - **Code Reference:**
     - Input Validation: [controllers/blogPostController.js#L13](./controllers/blogPostController.js#L13) // Validates and sanitizes blog post data
     - CSRF Protection: [routers/authRouter.js#L12](./routers/authRouter.js#L12) // Protects against CSRF attacks in authentication routes
     - Password Hashing: [routers/authRouter.js#L32](./routers/authRouter.js#L32) // Hashes user passwords before storing them
     - XSS Protection: [features/step_defintions/home.test.js#L30](./features/step_defintions/home.test.js#L30) // Ensures input fields are sanitized to prevent XSS
     - SQL Injection Protection: [models/index.js#L10](./models/index.js#L10) // Uses parameterized queries to prevent SQL injection
-  - **Security Implementation:** 
+  - **Security Implementation:**
     - Input Validation: [controllers/blogPostController.js](./controllers/blogPostController.js) // Validates and sanitizes blog post data
     - CSRF Protection: [routers/authRouter.js](./routers/authRouter.js) // Protects against CSRF attacks in authentication routes
     - Password Hashing: [routers/authRouter.js](./routers/authRouter.js) // Hashes user passwords before storing them
@@ -281,37 +410,28 @@ Passport implementation and login router.
 
 ## Feature Implementation Evidence
 
-- **Video Demonstration:** [Link to video demonstrating features]
-
-## Testing Evidence
-
-- **Test Execution:** [Screenshots of running tests]
-- **Coverage Report:** [Screenshots of coverage report]
-
-## Security Enhancements Evidence
-
-- **Security Implementation:** [Description and code references]
+- **Video Demonstration:** [Walkthrough video](https://youtu.be/Ovkz2Pbvh3M)
 
 ## Code Quality and Refactoring Evidence
 
 ### Code Structure Improvements
 
 ![Code Structure Before Refactor](./screenshots/app-before.png)
-_Figure 1: App.js before refactor and modularization_
+_Figure 24: App.js before refactor and modularization_
 
 ![Code Structure Before and After](./screenshots/app-after.png)
-_Figure 2: App.js after refactor and modularization_
+_Figure 25: App.js after refactor and modularization_
 
 ### Database Model Organization
 
 ![User Model User.js](./screenshots/user-model.png)
-_Figure 3: Screenshot of individual User model_
+_Figure 26: Screenshot of individual User model_
 
 ![Blog Post Model BlogPost.js](./screenshots/blog-post-model.png)
-_Figure 4: Screenshot of individual BlogPost model_
+_Figure 27: Screenshot of individual BlogPost model_
 
 ![Separate models](./screenshots/db-models.png)
-_Figure 5: Screenshot showing the organized database models structure_
+_Figure 28: Screenshot showing the organized database models structure_
 
 ### Environment Configuration
 
@@ -322,50 +442,65 @@ SESSION_SECRET=****
 DATABASE_URL=****
 ```
 
-_Figure 6: Example of environment configuration (with sensitive data redacted)_
+_Figure 29: Example of environment configuration (with sensitive data redacted)_
 
 ### Router Separation
 
 ![Router Organization](./screenshots/router-structure.png)
-_Figure 7: Screenshot showing the separation of routes into distinct modules_
+_Figure 30: Screenshot showing the separation of routes into distinct modules_
 
 ## CI/CD and Git Practices Evidence
 
 ### Branch Protection Rules
 
 ![Branch Protection Settings](./screenshots/protection-rules.png)
-_Figure 8: Screenshot of GitHub branch protection rules configuration_
+_Figure 31: Screenshot of GitHub branch protection rules configuration_
 
 ### Pull Request Review Process
 
 ![PR Review Example](./screenshots/resolved-comments.png)
-_Figure 9: Example of a pull request with review comments that have been resolved_
+_Figure 32: Example of a pull request with review comments that have been resolved_
 
 ![PR Review Example Comments](./screenshots/pr-comments.png)
-_Figure 10: Example of pull request comments_
+_Figure 33: Example of pull request comments_
 
 ### GitHub Actions Workflow
 
 ![GitHub Actions Dashboard Fail](./screenshots/action-fail.png)
-_Figure 11: Screenshot of GitHub Actions showing failing test runs_
+_Figure 34: Screenshot of GitHub Actions showing failing test runs_
 
 ![GitHub Actions Dashboard Success](./screenshots/action-success.png)
-_Figure 12: Screenshot of GitHub Actions showing successful test runs_
+_Figure 35: Screenshot of GitHub Actions showing successful test runs_
 
 ### Code Quality Checks
 
 ![ESLint Results Fail](./screenshots/lint-fail.png)
-_Figure 13: Example of ESLint code quality check with failed results_
+_Figure 36: Example of ESLint code quality check with failed results_
 
 ![ESLint Results Success](./screenshots/lint-success.png)
-_Figure 14: Example of ESLint code quality check successful results_
+_Figure 37: Example of ESLint code quality check successful results_
 
 ### Branching Strategy
 
 ![Git Graph](./screenshots/git-graph.png)
-_Figure 15: Git graph showing our branching strategy in action_
+_Figure 38: Git graph showing our branching strategy in action_
 
 ## Conclusion
 
-- **Project Outcomes:** Successfully enhanced the blog application with improved security, testing, and user features.
-- **Future Improvements:** Plan to further optimize performance and expand user functionalities.
+The team successfully delivered significant improvements to the blog application while implementing robust software quality assurance practices:
+
+### Key Achievements
+
+- Enhanced security through proper password hashing and CSRF protection
+- Implemented comprehensive testing strategy including BDD, unit, and integration tests
+- Added new features including user profiles, blog interactions (likes/comments), and improved search functionality
+- Established efficient CI/CD pipelines using GitHub Actions
+- Maintained high code quality through modularization and industry-standard practices
+
+### Future Improvements
+
+- Implement additional security features like two-factor authentication
+- Enhance performance optimization for scaling
+- Add more social features for user interaction
+- Expand test coverage across all components
+- Implement automated deployment pipelines
